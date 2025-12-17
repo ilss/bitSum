@@ -1,136 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
-    
+<html lang="zh-CN">
+
 <!-- Mirrored from www.codehiddenlanguage.com/Chapter14/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:05:51 GMT -->
+
 <head>
-        <meta charset="utf-8">
-        <title>Code: Chapter 14</title>
-        <link rel="stylesheet" href="../style.240618.css">
-    </head>
+    <meta charset="utf-8">
+    <title>CODE：第 14 章</title>
+    <link rel="stylesheet" href="../style.240618.css">
+</head>
 
-    <body>
-        <header>
-            <h1>
-                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
-            </h1>
-            <h2>Chapter 14. Adding with Logic Gates</h2>
-        </header>
+<body>
+    <header>
+        <h1>
+            <a href="../index.html"><i>CODE</i></a><br /><i>计算机硬件与软件的隐秘语言</i><br />第 2 版
+        </h1>
+        <h2>第 14 章：用逻辑门实现加法</h2>
+    </header>
 
-        <div class="narrative">
-            <p>
-                Addition is the most basic arithmetic operation. 
-                This chapter demonstrates how logic gates can add binary numbers.
-                In all these circuits, you select the digits to be added using the square buttons.
-                You can toggle these buttons with mouse clicks or finger taps. 
-                The output is shown in the circles. 
-            </p>
-            <p>
-                All the gates in these animations have their propagation times set to 100 milliseconds (1/10<sup>th</sup> second).
-                When you toggle one of the switches, you can see the bits propagating from left to right.
-            </p>
-        </div>
+    <div class="narrative">
+        <p>
+            加法是最基本的算术运算。
+            本章演示逻辑门如何对二进制数进行加法运算。
+            在所有这些电路中，你可以用方形按钮选择要相加的各位数字。
+            你可以用鼠标点击或手指轻触来切换这些按钮。
+            输出显示在圆形指示灯中。
+        </p>
+        <p>
+            这些动画中的所有逻辑门都将传播时间设为 100 毫秒（1/10 秒）。
+            当你切换某个开关时，可以看到各个比特从左向右逐级传播。
+        </p>
+    </div>
 
-        <h3>One-Bit Sum (pages 174)</h3>
+    <h3>一位求和（第 174 页）</h3>
 
-        <div class="narrative">
-            <p>
-                The journey of a complex adder begins with a single bit sum:
-            </p>
-        </div>
+    <div class="narrative">
+        <p>
+            复杂加法器的旅程，从一位求和开始：
+        </p>
+    </div>
 
-        <div class="canvas-container">
-            <canvas id="canvasOneBit" width="780" height="350">
-                Your browser does not support the canvas element.
-            </canvas>
-        </div>
+    <div class="canvas-container">
+        <canvas id="canvasOneBit" width="780" height="350">
+            你的浏览器不支持 canvas 元素。
+        </canvas>
+    </div>
 
-        <h3>One-Bit Half Adder (page 176)</h3>
+    <h3>一位半加器（第 176 页）</h3>
 
-        <div class="narrative">
-            <p>
-                That sum must be supplemented with a <b>Carry</b> bit. 
-                Although the sum part of this circuit is shown in the book as an Exclusive-OR (XOR) gate,
-                the individual gates are shown here:
-            </p>
-        </div>
+    <div class="narrative">
+        <p>
+            这个求和还必须配合一个<b>进位</b>位。
+            尽管书中把该电路的求和部分画成了异或（XOR）门，
+            这里展示的是由各个基础逻辑门组成的实现：
+        </p>
+    </div>
 
-        <div class="canvas-container">
-            <canvas id="canvasHalfAdder" width="800" height="500">
-                Your browser does not support the canvas element.
-            </canvas>
-        </div>
+    <div class="canvas-container">
+        <canvas id="canvasHalfAdder" width="800" height="500">
+            你的浏览器不支持 canvas 元素。
+        </canvas>
+    </div>
 
-        <h3>One-Bit Full Adder (pages 177)</h3>
+    <h3>一位全加器（第 177 页）</h3>
 
-        <div class="narrative">
-            <p>
-                Two adders are required to accomodate a <b>Carry In</b> bit. 
-                In the book, this is shown with a pair of half-adders encapsulated in a box, 
-                but here all the separate gates are shown.
-            </p>
-        </div>
+    <div class="narrative">
+        <p>
+            为了处理<b>进位输入</b>位，需要两个加法器配合。
+            书中用一个盒子把两个半加器封装起来表示，
+            但这里会展示所有独立的逻辑门。
+        </p>
+    </div>
 
-        <div class="canvas-container">
-            <canvas id="canvasFullAdder" width="920" height="450">
-                Your browser does not support the canvas element.
-            </canvas>
-        </div>
+    <div class="canvas-container">
+        <canvas id="canvasFullAdder" width="920" height="450">
+            你的浏览器不支持 canvas 元素。
+        </canvas>
+    </div>
 
-        <h3>Eight-Bit Adder (pages 180)</h3>
+    <h3>八位加法器（第 180 页）</h3>
 
-        <div class="narrative">
-            <p>
-                Finally, entire bytes can be added by cascading eight one-bit adders.
-                The diagram in the book shows the encapsulated full adders but this animation shows all the individual logic gates.
-            </p>
-            <p>
-                Select the two binary values to be added by clicking or tapping the square buttons at the top.
-                The values in hexadecimal and decimal are shown at the far right.
-                The binary result is shown in the circles at the bottom, 
-                and the hexadecimal and decimal equivalents are shown at the far right.
-            </p>
-        </div>
+    <div class="narrative">
+        <p>
+            最后，通过级联 8 个一位加法器，就能对完整的字节进行加法运算。
+            书中的图示把全加器进行了封装，而这个动画展示的是所有独立的逻辑门。
+        </p>
+        <p>
+            点击或轻触顶部的方形按钮，选择要相加的两个二进制数值。
+            十六进制与十进制数值显示在最右侧。
+            二进制运算结果显示在底部的圆形指示灯中，
+            对应的十六进制与十进制结果也显示在最右侧。
+        </p>
+    </div>
 
-        <div class="canvas-container">
-            <canvas id="canvas8BitAdder" width="1200" height="575">
-                Your browser does not support the canvas element.
-            </canvas>
-        </div>
+    <div class="canvas-container">
+        <canvas id="canvas8BitAdder" width="1200" height="575">
+            你的浏览器不支持 canvas 元素。
+        </canvas>
+    </div>
 
-        <div class="narrative">
-            <p>
-                This circuit implements a ripple carry. 
-                The <b>Carry Out</b> from each bit must be calculated for the <b>Carry In</b> of the next most significant digit.
-                To see the full propagation delay, try setting the entire row of top buttons to 1, 
-                and then use the buttons in the second row to add 1 to that.
-            </p>
-        </div>
+    <div class="narrative">
+        <p>
+            该电路实现了“脉动进位”（ripple carry）。
+            每一位的<b>进位输出</b>都必须先计算出来，才能作为更高一位的<b>进位输入</b>。
+            要观察完整的传播延迟，可以先把最上面一整排按钮都设为 1，
+            然后用第二排按钮在此基础上加 1。
+        </p>
+    </div>
 
-        <hr />
+    <hr />
 
-        <footer>
-            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
-        </footer>
+    <footer>
+        &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+    </footer>
 
-        <script src="../PropagatingLogicLib.240618.js"></script>
-        <script src="../PropagatingIoLib.240618.js"></script>
-        <script src="../PropagatingGatesLib.240618.js"></script>
-        <script src="../StructuredLayoutLib.240618.js"></script>
-        <script src="Chapter14OneBitSummer.json.js"></script>
-        <script src="Chapter14OneBitSum.json.js"></script>
-        <script src="Chapter14OneBitHalfer.json.js"></script>
-        <script src="Chapter14OneBitHalfAdder.json.js"></script>
-        <script src="Chapter14OneBitFuller.json.js"></script>
-        <script src="Chapter14OneBitFullAdder.json.js"></script>
-        <script src="Chapter14EightBitComponent.json.js"></script>
-        <script src="Chapter14EightBitAdder.json.js"></script>
-        <script>
-            new CircuitBuilder(canvasOneBit, Chapter14OneBitSum);
-            new CircuitBuilder(canvasHalfAdder, Chapter14OneBitHalfAdder);
-            new CircuitBuilder(canvasFullAdder, Chapter14OneBitFullAdder);
-            new CircuitBuilder(canvas8BitAdder, Chapter14EightBitAdder);
-        </script>
-    </body>
+    <script src="../PropagatingLogicLib.240618.js"></script>
+    <script src="../PropagatingIoLib.240618.js"></script>
+    <script src="../PropagatingGatesLib.240618.js"></script>
+    <script src="../StructuredLayoutLib.240618.js"></script>
+    <script src="Chapter14OneBitSummer.json.js"></script>
+    <script src="Chapter14OneBitSum.json.js"></script>
+    <script src="Chapter14OneBitHalfer.json.js"></script>
+    <script src="Chapter14OneBitHalfAdder.json.js"></script>
+    <script src="Chapter14OneBitFuller.json.js"></script>
+    <script src="Chapter14OneBitFullAdder.json.js"></script>
+    <script src="Chapter14EightBitComponent.json.js"></script>
+    <script src="Chapter14EightBitAdder.json.js"></script>
+    <script>
+        new CircuitBuilder(canvasOneBit, Chapter14OneBitSum);
+        new CircuitBuilder(canvasHalfAdder, Chapter14OneBitHalfAdder);
+        new CircuitBuilder(canvasFullAdder, Chapter14OneBitFullAdder);
+        new CircuitBuilder(canvas8BitAdder, Chapter14EightBitAdder);
+    </script>
+</body>
 
 <!-- Mirrored from www.codehiddenlanguage.com/Chapter14/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:05:59 GMT -->
+
 </html>

@@ -75,28 +75,39 @@ class Component {
    * @param {Object} params - 参数配置对象
    */
   constructor(layout, canvas, ctx, id, params) {
+    // 布局/容器：通常是 CircuitBuilder 实例，用于访问全局组件表、线表等
     this.layout = layout
+    // 所在画布元素：用于注册事件（click/pointer 等）以及获取尺寸
     this.canvas = canvas
+    // 2D 绘图上下文：组件渲染时直接使用该 ctx 绘制
     this.ctx = ctx
+    // 组件唯一标识：在配置中对应 name，经 FormFullName 后可能带命名空间前缀（如 summer.or）
     this.id = id
+    // 运行参数：由 CircuitBuilder 统一下发（传播延迟、线宽、三态表等）
     this.params = params
 
-    this.doNotPropagate = false // 是否禁止信号传播
-    this.propertyMap = new Map() // 属性映射表
+    // 是否禁用自动信号传播：用于 testable/调试场景，避免一创建就触发传播链
+    this.doNotPropagate = false
+    // 组件属性表：保存配置中除 name/type/坐标/变换之外的所有属性（如 text、hidden、inputs 等）
+    this.propertyMap = new Map()
 
-    // 常用颜色
-    this.black = '#000000'
-    this.red = '#FF0000'
-    this.white = '#FFFFFF'
+    // 常用颜色常量：绘制导线/门/文本时复用（通电常用 red）
+    this.black = '#000000' // 默认描边/文字颜色
+    this.red = '#FF0000' // “导通/高电平/通电”状态的高亮颜色
+    this.white = '#FFFFFF' // 擦除/背景色（很多组件用白线覆盖旧图形）
 
-    this.fontFamily = 'Tahoma,sans-serif' // 默认字体
+    // 默认字体族：各组件绘制数字/标签时使用
+    this.fontFamily = 'Tahoma,sans-serif'
 
-    this.hidden = false // 是否隐藏
+    // 是否隐藏：hidden=true 时 render() 可能直接跳过绘制（由 setProperty('hidden') 控制）
+    this.hidden = false
 
-    // 输出状态：虽然不是所有派生类都使用，但大多数都需要
+    // 输出状态：该组件当前对外输出的信号值（boolean 或某些场景下为数值/NaN）
+    // 虽然不是所有派生类都使用，但传播链与渲染逻辑通常依赖它
     this.output = false
 
-    // 通知回调数组：用于TwoInputGate和Box等类
+    // 通知订阅列表：输出变化时回调这些监听者（TwoInputGate/Box/DynamicDecimal 等用到）
+    // 元素结构：{ func, param }
     this.notifies = []
   }
 

@@ -54,7 +54,14 @@ let Chapter14OneBitHalfer = {
 
     // 进位与门：计算 Carry = A AND B
     // 当且仅当 A=1 且 B=1 时，产生进位
-    { name: 'carryAnd', type: 'AndGate', x: 240, y: 400, fillColor: '#90EE90' },
+    {
+      name: 'carryAnd',
+      type: 'AndGate',
+      x: 240,
+      y: 400,
+      fillColor: '#c3f5c3',
+      showValue: true,
+    },
 
     // ----- 信号分发节点 -----
     // Node: 将一个输入信号分发到多个目标（一进多出）

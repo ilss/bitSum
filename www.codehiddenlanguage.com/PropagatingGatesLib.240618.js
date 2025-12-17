@@ -44,6 +44,15 @@ class Gate extends SinglePropagator {
   }
 
   /**
+   * 获取门的中心坐标（用于显示输出值）
+   * 子类可以重写此方法来调整文字位置
+   * @returns {Object} 中心坐标 {x, y}
+   */
+  getCenter() {
+    return { x: 50, y: 0 }
+  }
+
+  /**
    * 渲染逻辑门
    * 先填充背景色（如果设置），再用白色擦除边框，最后用黑色绘制边框
    */
@@ -76,6 +85,45 @@ class Gate extends SinglePropagator {
     this.ctx.stroke()
 
     this.ctx.restore()
+
+    // 如果设置了 showValue 属性，在门中心显示输出值（0 或 1）
+    // 可在配置中使用: { name: "and", type: "AndGate", showValue: true }
+    if (
+      this.propertyMap.has('showValue') &&
+      this.propertyMap.get('showValue')
+    ) {
+      this.renderOutputValue()
+    }
+  }
+
+  /**
+   * 在门中心渲染输出值（0 或 1）
+   */
+  renderOutputValue() {
+    // 获取门的中心坐标
+    let center = this.getCenter()
+
+    // 应用变换得到实际屏幕坐标
+    let pt = this.xformLocal(center)
+    pt = this.xformGlobal(pt.x + 10, pt.y)
+
+    this.ctx.save()
+
+    // 设置文字样式
+    let fontSize = this.propertyMap.has('valueSize')
+      ? this.propertyMap.get('valueSize')
+      : 20
+    this.ctx.font = `bold ${fontSize}px Arial`
+    // 1 用红色，0 用黑色
+    this.ctx.fillStyle = this.output ? '#FF0000' : '#000000'
+    this.ctx.textAlign = 'center'
+    this.ctx.textBaseline = 'middle'
+
+    // 绘制输出值：true = 1, false = 0
+    let text = this.output ? '1' : '0'
+    this.ctx.fillText(text, pt.x, pt.y)
+
+    this.ctx.restore()
   }
 }
 
@@ -102,6 +150,7 @@ class OneInputGate extends Gate {
     // 如果输出改变，则传播信号
     if (output != this.output) {
       this.output = output
+      this.render() // 重新渲染以更新显示的输出值
       this.propagate()
     }
   }
@@ -334,6 +383,7 @@ class TwoInputGate extends Gate {
     // 如果输出改变，则传播信号并通知监听者
     if (output != this.output) {
       this.output = output
+      this.render() // 重新渲染以更新显示的输出值
       this.propagate()
 
       this.notifyAll() // 通知所有监听者（如DynamicDecimal）

@@ -1,6 +1,6 @@
 // editor.js
 
-// Initial circuit state
+// 初始电路状态
 let circuit = {
     name: 'MyCircuit',
     transform: { x: 0, y: 0, scale: 1, rotate: 0 },
@@ -13,7 +13,7 @@ let canvas = document.getElementById('circuitCanvas');
 let ctx = canvas.getContext('2d');
 let circuitBuilder = null;
 
-// Monkey-patch Joint to be visible in the editor
+// Monkey-patch Joint 以便在编辑器中可见
 if (typeof Joint !== 'undefined') {
     Joint.prototype.render = function() {
         this.ctx.save();
@@ -29,52 +29,52 @@ if (typeof Joint !== 'undefined') {
     };
 }
 
-// Temporary state for wiring
+// 连线的临时状态
 let wiringStart = null; // { componentName, io }
 let tempWire = null;
 
-// Component definitions for port locations (approximate for hit testing)
+// 组件端口位置定义（用于命中测试的近似值）
 const COMPONENT_PORTS = {
-    'Switch': ['left', 'out'], // 'left' is implied input for some, 'out' is output
+    'Switch': ['left', 'out'], // 'left' 对某些组件是隐含输入，'out' 是输出
     'Battery': ['pos', 'neg'],
     'Lightbulb': ['left', 'right'],
-    'Joint': ['root'], // Special case for Joint
+    'Joint': ['root'], // Joint 的特殊情况
     'Ground': ['root']
 };
 
-// Initialize
+// 初始化
 function init() {
     setupPalette();
     render();
     setupControls();
 }
 
-// Re-render the circuit
+// 重新渲染电路
 function render() {
-    // Clear canvas
+    // 清除画布
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // To avoid event listener accumulation, we clone the canvas
-    // This is a bit heavy but ensures clean state for the library
+    // 为了避免事件监听器累积，我们克隆画布
+    // 这有点重，但确保了库的干净状态
     let newCanvas = canvas.cloneNode(true);
     canvas.parentNode.replaceChild(newCanvas, canvas);
     canvas = newCanvas;
     ctx = canvas.getContext('2d');
     
-    // Re-attach our interaction listeners
+    // 重新附加我们的交互监听器
     setupCanvasInteraction();
     setupCanvasDrop();
 
-    // Use the library to build and render
+    // 使用库来构建和渲染
     try {
         circuitBuilder = new CircuitBuilder(canvas, circuit);
     } catch (e) {
-        console.error("Error rendering circuit:", e);
+        console.error("渲染电路时出错:", e);
     }
 
-    // Draw temporary wire if any
+    // 如果有临时连线，绘制它
     if (wiringStart) {
-        // We need mouse position, handled in mousemove
+        // 我们需要鼠标位置，在 mousemove 中处理
     }
 }
 
@@ -120,9 +120,9 @@ function addComponent(type, x, y) {
 
 function setupCanvasInteraction() {
     canvas.addEventListener('click', (e) => {
-        // We want to handle wiring clicks.
-        // But the library components also handle clicks (e.g. toggling switch).
-        // We'll try to prioritize wiring if we hit a port.
+        // 我们想处理连线点击。
+        // 但是库组件也处理点击（例如切换开关）。
+        // 如果我们击中端口，我们将尝试优先处理连线。
         
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -132,8 +132,8 @@ function setupCanvasInteraction() {
         
         if (port) {
             handlePortClick(port);
-            // Stop propagation to prevent triggering component action (like switch toggle)
-            // if we are in wiring mode or just clicked a port.
+            // 停止传播以防止触发组件动作（如开关切换）
+            // 如果我们处于连线模式或刚刚点击了一个端口。
             e.stopPropagation(); 
         }
     });
@@ -150,11 +150,11 @@ function setupCanvasInteraction() {
     });
 
     canvas.addEventListener('contextmenu', (e) => {
-        e.preventDefault(); // Prevent default context menu
+        e.preventDefault(); // 阻止默认上下文菜单
         if (wiringStart) {
             wiringStart = null;
-            render(); // Clear temporary wire
-            console.log("Wiring cancelled");
+            render(); // 清除临时连线
+            console.log("连线已取消");
         }
     });
 
@@ -164,12 +164,12 @@ function setupCanvasInteraction() {
             const mouseX = e.clientX - rect.left;
             const mouseY = e.clientY - rect.top;
             
-            // Redraw to show temp wire (this is inefficient, but simple)
-            // Ideally we'd use a separate layer or requestAnimationFrame
-            // For now, let's just draw on top
-            render(); // This clears and redraws everything! A bit heavy.
+            // 重绘以显示临时连线（这效率不高，但很简单）
+            // 理想情况下我们会使用单独的层或 requestAnimationFrame
+            // 现在，我们只是在上面绘制
+            render(); // 这会清除并重绘所有内容！有点重。
             
-            // Draw line from start to mouse
+            // 绘制从起点到鼠标的线
             const startPos = getPortPosition(wiringStart.componentName, wiringStart.io);
             if (startPos) {
                 ctx.beginPath();
@@ -184,16 +184,16 @@ function setupCanvasInteraction() {
 }
 
 function findClickedPort(x, y) {
-    // Iterate all components and their ports
-    // We need the CircuitBuilder instance to get exact coordinates
+    // 遍历所有组件及其端口
+    // 我们需要 CircuitBuilder 实例来获取精确坐标
     if (!circuitBuilder) return null;
 
     for (let [name, component] of circuitBuilder.compMap) {
-        // Get component type from circuit definition to know which ports to check
-        // circuitBuilder.compMap keys are full names.
-        // We can check the component object directly.
+        // 从电路定义获取组件类型以知道要检查哪些端口
+        // circuitBuilder.compMap 键是全名。
+        // 我们可以直接检查组件对象。
         
-        // Find the original component config to know the type
+        // 找到原始组件配置以知道类型
         const compConfig = circuit.components.find(c => c.name === name);
         if (!compConfig) continue;
 
@@ -202,17 +202,17 @@ function findClickedPort(x, y) {
         for (let io of ports) {
             let pt;
             if (compConfig.type === 'Joint' || compConfig.type === 'Ground') {
-                // Joint/Ground usually don't have named ports in getCoordinates(io) the same way?
-                // Let's check the library source or assume center.
-                // Actually Joint is just a point.
+                // Joint/Ground 通常不像 getCoordinates(io) 那样有命名端口？
+                // 让我们检查库源码或假设中心。
+                // 实际上 Joint 只是一个点。
                 pt = component.getCoordinates ? component.getCoordinates(io) : {x: component.x, y: component.y};
-                // For Joint, getCoordinates might not work as expected if it doesn't have 'root'
-                // Let's try 'center' or just use component position if it fails
+                // 对于 Joint，如果它没有 'root'，getCoordinates 可能无法按预期工作
+                // 让我们尝试 'center' 或者如果失败就使用组件位置
                  try {
-                     pt = component.getCoordinates('center'); // Most have center?
+                     pt = component.getCoordinates('center'); // 大多数有 center？
                  } catch(e) {
-                     // Fallback
-                     pt = {x: 0, y: 0}; // Need to apply transform
+                     // 回退
+                     pt = {x: 0, y: 0}; // 需要应用变换
                  }
             } else {
                  try {
@@ -222,46 +222,46 @@ function findClickedPort(x, y) {
                  }
             }
             
-            // The coordinates returned by getCoordinates are usually global if we used the right method?
-            // Wait, getCoordinates in library usually returns local transformed.
-            // We need global coordinates.
-            // The library components have `xformGlobal` but it's internal?
-            // Let's look at CircuitBuilder.GetCoordinates or similar.
+            // getCoordinates 返回的坐标通常是全局的，如果我们使用了正确的方法？
+            // 等等，库中的 getCoordinates 通常返回局部变换后的坐标。
+            // 我们需要全局坐标。
+            // 库组件有 `xformGlobal` 但它是内部的？
+            // 让我们看看 CircuitBuilder.GetCoordinates 或类似的。
             
-            // Actually, `component.getCoordinates(io)` returns coordinates transformed by `xformLocal`.
-            // But we also need `applyGlobalTransform`.
-            // Let's try to use the component's position + local port offset.
+            // 实际上，`component.getCoordinates(io)` 返回由 `xformLocal` 变换的坐标。
+            // 但我们也需要 `applyGlobalTransform`。
+            // 让我们尝试使用组件的位置 + 局部端口偏移。
             
-            // Easier approach: The library renders components.
-            // Let's just define hit zones based on component x,y and known offsets.
-            // This is less robust but easier than reverse-engineering the matrix stack.
+            // 更简单的方法：库渲染组件。
+            // 我们只需根据组件 x,y 和已知偏移定义命中区域。
+            // 这不如逆向工程矩阵堆栈健壮，但更容易。
             
-            // Better: use the component instance.
-            // component.xformGlobal(x, y) transforms from local to global?
-            // No, usually xformGlobal transforms FROM global TO local or vice versa?
-            // In PropagatingBoxesLib: pt = this.xformGlobal(pt.x, pt.y);
+            // 更好：使用组件实例。
+            // component.xformGlobal(x, y) 从局部变换到全局？
+            // 不，通常 xformGlobal 从全局变换到局部或反之亦然？
+            // 在 PropagatingBoxesLib 中：pt = this.xformGlobal(pt.x, pt.y);
             
-            // Let's assume we can get the position.
-            // For now, let's use a simple distance check to the component center for "Joint"
-            // and estimated offsets for others.
+            // 让我们假设我们可以获取位置。
+            // 现在，让我们对 "Joint" 使用简单的到组件中心的距离检查
+            // 对其他组件使用估计的偏移。
             
-            // Actually, let's look at `WireArray` in library. It connects points.
-            // It uses `component.getCoordinates(io, true)`.
-            // `true` might mean "return global"?
-            // Let's check `StructuredLayoutLib.js` -> `GetCoordinates`.
+            // 实际上，让我们看看库中的 `WireArray`。它连接点。
+            // 它使用 `component.getCoordinates(io, true)`。
+            // `true` 可能意味着 "返回全局"？
+            // 让我们检查 `StructuredLayoutLib.js` -> `GetCoordinates`。
             
-            // In `StructuredLayoutLib.js`:
+            // 在 `StructuredLayoutLib.js` 中：
             // `ptComp = component.getCoordinates(ptref.io, true)`
-            // Let's check `Switch.getCoordinates`.
-            // It calls `this.xformLocal(pt)`.
-            // `xformLocal` applies rotation/scale/translation of the component.
-            // It does NOT apply the global circuit transform (if any).
-            // Our circuit.transform is identity (x:0, y:0, scale:1).
-            // So `xformLocal` should be enough if the component is top-level.
+            // 让我们检查 `Switch.getCoordinates`。
+            // 它调用 `this.xformLocal(pt)`。
+            // `xformLocal` 应用组件的旋转/缩放/平移。
+            // 它不应用全局电路变换（如果有）。
+            // 我们的 circuit.transform 是恒等变换 (x:0, y:0, scale:1)。
+            // 所以如果组件是顶层的，`xformLocal` 应该足够了。
             
             if (pt) {
                 const dist = Math.hypot(pt.x - x, pt.y - y);
-                if (dist < 15) { // 15px hit radius
+                if (dist < 15) { // 15px 命中半径
                     return { componentName: name, io: io };
                 }
             }
@@ -285,11 +285,11 @@ function getPortPosition(name, io) {
 function handlePortClick(port) {
     if (!wiringStart) {
         wiringStart = port;
-        console.log("Wiring started from", port);
+        console.log("开始连线从", port);
     } else {
-        // Finish wire
+        // 完成连线
         if (wiringStart.componentName === port.componentName && wiringStart.io === port.io) {
-            // Clicked same port, cancel
+            // 点击了同一个端口，取消
             wiringStart = null;
             render();
             return;
@@ -339,26 +339,26 @@ function exportJSON() {
     URL.revokeObjectURL(url);
 }
 
-// Start
+// 启动
 window.onload = init;
 
 function findClickedComponent(x, y) {
     if (!circuitBuilder) return null;
 
     for (let [name, component] of circuitBuilder.compMap) {
-        // Simple bounding box check or distance check
-        // Most components have width/height or radius
-        // Let's assume a generic hit area if hittest is not available or complex
+        // 简单的边界框检查或距离检查
+        // 大多数组件有宽度/高度或半径
+        // 如果 hittest 不可用或复杂，让我们假设一个通用的命中区域
         
-        // Try to use the component's hittest if available
-        // component.hittest(x, y, ul, lr) requires local coords for ul/lr
-        // Let's just use the position and a standard size
+        // 尝试使用组件的 hittest 如果可用
+        // component.hittest(x, y, ul, lr) 需要 ul/lr 的局部坐标
+        // 让我们只使用位置和标准尺寸
         
-        // Get global position
+        // 获取全局位置
         let pos = {x: 0, y: 0};
         try {
-            // This is a bit hacky, we assume getCoordinates('center') or similar works
-            // or we just use the circuit definition position
+            // 这有点 hacky，我们假设 getCoordinates('center') 或类似的工作
+            // 或者我们只使用电路定义位置
             const compDef = circuit.components.find(c => c.name === name);
             if (compDef) {
                 pos = {x: compDef.x, y: compDef.y};
@@ -366,7 +366,7 @@ function findClickedComponent(x, y) {
         } catch (e) {}
         
         const dist = Math.hypot(pos.x - x, pos.y - y);
-        if (dist < 30) { // 30px radius for component selection
+        if (dist < 30) { // 30px 半径用于组件选择
             return name;
         }
     }
@@ -374,12 +374,12 @@ function findClickedComponent(x, y) {
 }
 
 function deleteComponent(name) {
-    // Remove from components list
+    // 从组件列表中移除
     const index = circuit.components.findIndex(c => c.name === name);
     if (index !== -1) {
         circuit.components.splice(index, 1);
         
-        // Remove connected wires
+        // 移除连接的电线
         circuit.wires = circuit.wires.filter(wire => {
             return !wire.points.some(pt => pt.name === name);
         });

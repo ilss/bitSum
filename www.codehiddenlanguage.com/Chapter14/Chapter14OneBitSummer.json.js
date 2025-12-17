@@ -42,11 +42,26 @@ let Chapter14OneBitSummer = {
 
     // NAND 门：计算 A NAND B = !(A AND B)
     // fillColor: 浅橙色背景
-    { name: 'nand', type: 'NandGate', x: 240, y: 250, fillColor: '#FFB74D' },
+    {
+      name: 'nand',
+      type: 'NandGate',
+      x: 240,
+      y: 250,
+      fillColor: '#ffd9a1',
+      showValue: true,
+    },
 
     // AND 门：将 OR 和 NAND 的输出相与，得到最终的 XOR 结果
     // fillColor: 设置门内部填充颜色（浅绿色）
-    { name: 'and', type: 'AndGate', x: 480, y: 175, fillColor: '#90EE90' },
+    // showValue: 在门中心显示输出值（0 或 1）
+    {
+      name: 'and',
+      type: 'AndGate',
+      x: 480,
+      y: 175,
+      fillColor: '#c3f5c3',
+      showValue: true,
+    },
 
     // ----- 连接点（Joint）-----
     // Joint 是电线的转折点，用于布局走线
