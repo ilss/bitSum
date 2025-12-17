@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter21/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:17 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: The Arithmetic Logic Unit</title>
+        <link rel="stylesheet" href="../style.240618.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>Chapter 21. The Arithmetic Logic Unit</h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                This chapter begins building an eight-bit CPU that is a functional subset of the Intel 8080 microprocessor.
+            </p>
+            <p>
+                It begins with the Arithmetic Logic Unit (ALU).
+                In the circuits below, the ALU is divided into two parts: 
+                the first is the arithmetic unit that handles addition and subtration, and the second handles bitwise logical operations.
+            </p>
+        </div>
+
+        <h3>
+            The Add/Subtract Unit (pages 321 – 323)
+        </h3>
+
+        <div class="narrative">
+            <p>
+                This circuit implements addition and subtraction.
+                The two "spin controls" at the top allow you to select two hexadecimal numbers to be added.
+                Click the arrows at the right of each number to increment or decrement by 1. 
+                The arrows at the left increment or decrement the number by 16 (hexadecimal 10).
+            </p>
+            <p>
+                The two buttons at the top left allow you to select one of four functions: 
+                <b>Add</b>, <b>Add with Carry</b>, <b>Subtract</b>, and <b>Subtract with Borrow</b>.
+            </p>
+            <p>
+                The <b>Result</b> in hexadecimal is shown at the bottom.
+                Carries are handled by a <b>CY In</b> button at the left and a <b>CY Out</b> light at the right.
+            </p>
+        </div>
+
+        <div class="canvas-container" style="position: relative">
+            <canvas id="canvasAddSubtractUnit"  width="1075" height="725">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                This is a little different from the circuits shown in the book in that the values of 
+                both <b>CY In</b> and <b>CY Out</b> are inverted for subtraction. 
+                (The entry in the lower-right corner of the table on page 322 should be <span style="text-decoration:overline">CY</span>)
+            </p>
+
+            <p>
+                An 8-bit CPU must be able to add and subtract 16-bit numbers, 24-bit numbers, 32-bit numbers, and so forth.
+                For this reason, it must be able to save a carry from one 8-bit addition or subtraction, and use it for the next.
+            </p>
+
+            <p>
+                For the <b>Add</b> function, the <b>CY In</b> button at the left has no effect. 
+                The <b>Result</b> is the lower byte of the sum of the two numbers, ranging from 00h through FFh.
+                The <b>CY Out</b> bit is 1 if the sum exceeds 255.
+            </p>
+
+            <p>
+                For <b>Add with Carry</b>, the <b>CY In</b> button causes 1 to be added to the sum of the two numbers
+                by setting the <b>CI</b> input of the adder to 1. 
+            </p>
+
+            <p>
+                When adding two multibyte numbers, use <b>Add</b> for the pair of least significant bytes. 
+                For each subsequent pairs of bytes, use <b>Add with Carry</b> and set
+                <b>CY In</b> to the <b>CY Out</b> value of the addition of the previous bytes.
+            </p>
+
+            <p>
+                You might want to experiment with adding pairs of sample 16-bit numbers. 
+                Here are a few sample numbers you can use:
+            </p>
+
+            <table>
+                <tr><th>Decimal</th><th>Hexadecimal</th></tr>
+                <tr><td>10,000</td><td>2710h</td></tr>
+                <tr><td>15,000</td><td>3A98h</td></tr>
+                <tr><td>20,000</td><td>4E20h</td></tr>
+                <tr><td>25,000</td><td>61A8h</td></tr>
+                <tr><td>30,000</td><td>7530h</td></tr>
+                <tr><td>40,000</td><td>9C40h</td></tr>
+            </table>
+
+            <p>
+                For example, add 2710h and 7530h. 
+                You do this in two steps.
+                First, <b>Add</b> 10h and 30h. 
+                The result is 40h with <b>CY Out</b> set to 0. 
+                Then <b>Add with Carry</b> the high bytes 27h and 75h with <b>CY In</b> set to 0.
+                The result is 9Ch for a composite total is 9C40h.
+            </p>
+
+            <p>
+                Now try an example with a carry, for example adding 3A98h and 61A8h.
+                First, <b>Add</b> the low bytes, 98h and A8h. 
+                The result is 40h and the <b>CY Out</b> bit set to 1.
+                Second, <b>Add with Carry</b> the high bytes 3Ah and 61h but with <b>CY In</b> set to 1,
+                which is the <b>CY Out</b> obtained when adding the first pair of bytes.
+                The result is 9Ch for a composite total of 9C40h.
+            </p>
+
+            <p>
+                Now try adding 7530h and 9C40h.
+                First <b>Add</b> 30h and 40h. The result is 70h and <b>CY Out</b> is 0.
+                Now <b>Add with Carry</b> 75h and 9Ch setting <b>CY In</b> to 0. 
+                The result is 11 but a <b>CY Out</b> value of 1 indicates overflow.
+            </p>
+
+            <p>
+                This overflow means you're really dealing with 24 bit numbers. 
+                So, <b>Add with Carry</b> 00h and 00h with <b>CY In</b> set to 1. 
+                The result, of course, is just 01 indicating a 3-byte composite total of 011170h or 70,000 in decimal.
+            </p>
+
+            <p>
+                For the <b>Subtract</b> function, the <b>CY In</b> button at the left has no effect.
+                The value of <b>B</b> is subtracted from <b>A</b> by inverting the bits of <b>B</b>, adding them to <b>A</b>, 
+                and adding 1 to that, which is accomplished by setting the <b>CI</b> input of the adder to 1.
+                If <b>B</b> is less than or equal to <b>A</b>, the <b>Result</b> is the difference.
+                If <b>B</b> is greater than <b>A</b>, the <b>CY Out</b> light indicates that a borrow is necessary.
+            </p>
+
+            <p>
+                Let's try some subtractions, for example 7530h minus 4E20h.
+                Start with the low bytes: Set the function to <b>Subtract</b>, and set <b>A</b> to 30h and <b>B</b> to 20h.
+                The difference is 10h and <b>CY Out</b> is set to 0.
+                Now select <b>Subtract with Borrow</b>, set <b>A</b> and <b>B</b> to the high bytes 75h and 4Eh, and set <b>CY In</b> to 0.
+                The result is 27h for a composite result of 2710h.
+            </p>
+
+            <p>
+                Now try 7530h minus 3A98h.
+                Set the function to <b>Subtract</b> and set <b>A</b> to 30h and <b>B</b> to 98h.
+                The result is 98h and <b>CY Out</b> is set to 1.
+                Now use <b>Subtract with Borrow</b> for the high bytes 75h and 3Ah but set <b>CY In</b> to 1 to match the <b>CY Out</b> value of the first pair of bytes.
+                The result is 3Ah for a composite result of 3A98h.
+            </p>
+
+            <p>
+                For a final example, try 3A98h minus 7530h.
+                First <b>Subtract</b> the low bytes 98h and 30h. The result is 68h and the <b>CY Out</b> bit is 0.
+                Now <b>Subtract with Borrow</b> the high bytes 3Ah and 75h and set <b>CY In</b> to 0.
+                The result is C5h for a composite result of C568h, but the <b>CY Out</b> value of 1 indicates an overflow.
+            </p>
+            <p>
+                Your next step might be to do what was done with addition overflow and extend the calculation to 24 bits. 
+                Select <b>Subtract with Borrow</b> again but set both <b>A</b> and <b>B</b> to 0 and <b>CY In</b> to 1.
+                Now the result is FFh and <b>CY In</b> is still 1.
+            </p>
+            <p>
+                You can keep going, but try using the Windows or macOS calculator in Programmer mode to calculate 3A98h minus 7530h. 
+                You'll get FFFFFFFFFFFFC598h, indicating a negative number equivalent to &ndash;15,000.
+                (Or, you can calculate the two's complement of FFFFFFFFFFFFC598h by inverting all the bits and adding 1.
+                That's 3A98h, which is decimal 15,000.) 
+            </p>
+        </div>
+
+        <h3>
+            The Logic Unit (pages 323 – 330)
+        </h3>
+
+        <div class="narrative">
+            <p>
+                The logic part of the ALU is considerably simpler than the arithmetic part.
+                All that's needed are three boxes that perform bitwise AND, XOR, and OR operations,
+                and a selector to select which of the tri-state buffers is enabled:
+            </p>
+        </div>
+
+        <div class="canvas-container" style="position: relative">
+            <canvas id="canvasLogicUnit" width="950" height="875">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                As with the Add/Subtract unit, you can select two hexadecimal numbers for the inputs.
+                Select the operation with the buttons on the left:
+            </p>
+            <ul>
+                <li>1 0 0 for Bitwise AND</li>
+                <li>1 0 1 for Bitwise XOR</li>
+                <li>1 1 0 for Bitwise OR</li>
+            </ul>
+            <p>
+                If the leftmost button is 0, then none of the tri-state buffers are selected because that's an arithmetic operation. 
+                If the buttons are set for 1 1 1, that's a Compare operation, which is handled in the next circuit.
+            </p>
+        </div>
+
+        <h3>
+            The Arithmetic Logic Unit (pages 332)
+        </h3>
+
+        <div class="narrative">
+            <p>
+                The Arithmetic Logic Unit combines the Add/Subtract Unit and the Logical Unit.
+                The version on page 332 of the book is somewhat simplified and does not properly handle the Compare instructions.
+                Handling the Compare instructions involves more complexity, as seen here: 
+            </p>
+        </div>
+
+        <div class="canvas-container" style="position: relative">
+            <canvas id="canvasArithmeticLogicUnit" width="1200" height="1500">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                The <b>A</b> and <b>B</b> inputs are set at the top on the left and right. 
+                The buttons to select the function are in the top center:
+            </p>
+            <ul>
+                <li>0 0 0 for Addition</li>
+                <li>0 0 1 for Addition with Carry</li>
+                <li>0 1 0 for Subtraction</li>
+                <li>0 1 1 for Subtraction with Borrow</li>
+                <li>1 0 0 for Bitwise AND</li>
+                <li>1 0 1 for Bitwise XOR</li>
+                <li>1 1 0 for Bitwise OR</li>
+                <li>1 1 1 for Compare</li>
+            </ul>
+            <p>
+                The <b>Clock</b> input at the bottom left saves the result of the calculation and the state of the three flags. 
+                and the <b>Enable</b> button at the bottom right displays the result.
+            </p>
+            <p>
+                The first four functions are handled by the <b>Add/Sub</b> module presented earlier in this chapter. 
+                The <b>CY Out</b> value is saved in the <b>Flags Latch</b> at the bottom, and then routed back to the <b>CY In</b> input.
+            </p>
+            <p>
+                The logical functions — AND, XOR, and OR — are handled by the <b>Logic</b> module towards the top on the right.
+                These functions always clear the <b>Carry</b> flag (that is, set it to zero), which accounts for some of the logic
+                towards the top leading to the <b>CY</b> input of the <b>Flags Latch</b>.
+            </p>
+            <p>
+                For both the arithmetic functions and the logical functions AND, XOR, and OR, the <b>Zero</b> flag is set if the result is zero.
+                This is handled by the eight-input NOR gates in the middle of the circuit.
+            </p>
+                What complicates this is the Compare operation.
+                The Compare operation sets the <b>Zero</b> and <b>Carry</b> flags as if a subtraction has occurred. 
+                The <b>Zero</b> flag is set if the <b>A</b> and <b>B</b> inputs are equal,
+                and the <b>CY</b> flag is set if <b>A</b> is less than <b>B</b>.
+            </p>
+            <p>
+                However, the Compare operation doesn't result in a new value saved in the Accumulator.
+                For this reason, if a Compare operation is occurring, the <b>A</b> input is enabled with
+                the tri-state buffer at the far left to be saved in the <b>Latch</b> at the bottom right.
+            </p>
+            <p>
+                For the Compare operation, the <b>Add/Sub</b> module is performing a Subtract with Borrow because 
+                F<sub>1</sub> and F<sub>0</sub> are both 1. 
+                For this reason, the <b>CY In</b> is set to 0 when a Compare operation is performed.
+            </p>
+        </div>
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+        <script src="../PropagatingLogicLib.240618.js"></script>
+        <script src="../PropagatingGatesLib.240618.js"></script>
+        <script src="../PropagatingIoLib.240618.js"></script>
+        <script src="../PropagatingBoxesLib.240618.js"></script>
+        <script src="../PropagatingDataPathLib.240618.js"></script>
+        <script src="../PropagatingAdvIoLib.240619.js"></script>
+        <script src="../PropagatingAdvBoxesLib.240618.js"></script>
+        <script src="../StructuredLayoutLib.240618.js"></script>
+        <script src="Chapter21AddSubtractUnit.json.js"></script>
+        <script src="Chapter21LogicUnit.json.js"></script>
+        <script src="Chapter21ArithmeticLogicUnit.json.js"></script>
+        <script>
+            new CircuitBuilder(canvasAddSubtractUnit, Chapter21AddSubtractUnit);
+            new CircuitBuilder(canvasLogicUnit, Chapter21LogicUnit);
+            new CircuitBuilder(canvasArithmeticLogicUnit, Chapter21ArithmeticLogicUnit);
+        </script>
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter21/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:21 GMT -->
+</html>

@@ -1,0 +1,60 @@
+<!--
+ * @Author: ilss 375259904@qq.com
+ * @Date: 2025-12-16 10:21:49
+ * @LastEditors: ilss 375259904@qq.com
+ * @LastEditTime: 2025-12-16 15:17:08
+ * @FilePath: /web1/www.codehiddenlanguage.com/Editor/index.html
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuit Editor</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
+    <link rel="stylesheet" href="../style.240618.css">
+    <link rel="stylesheet" href="editor.css">
+</head>
+<body>
+    <div class="editor-container">
+        <div class="sidebar">
+            <h2>Components</h2>
+            <div class="component-palette">
+                <div class="palette-item" draggable="true" data-type="Battery">Battery</div>
+                <div class="palette-item" draggable="true" data-type="Switch">Switch</div>
+                <div class="palette-item" draggable="true" data-type="Lightbulb">Lightbulb</div>
+                <div class="palette-item" draggable="true" data-type="Joint">Joint</div>
+                <div class="palette-item" draggable="true" data-type="Ground">Ground</div>
+            </div>
+            <div class="controls">
+                <button id="exportBtn">Export JSON</button>
+                <button id="clearBtn">Clear Canvas</button>
+            </div>
+            <div class="instructions">
+                <h3>使用说明</h3>
+                <ul>
+                    <li>拖拽组件到画布</li>
+                    <li>点击组件端口 开始连线</li>
+                    <li>点击另一个端口 完成连线</li>
+                    <li>双击组件可删除</li>
+                    <li>右键点击可取消连线</li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-area">
+            <canvas id="circuitCanvas" width="800" height="600"></canvas>
+        </div>
+    </div>
+
+    <!-- Libraries -->
+    <script src="../StructuredLayoutLib.240618.js"></script>
+    <script src="../PropagatingLogicLib.240618.js"></script>
+    <script src="../PropagatingIoLib.240618.js"></script>
+    <script src="../PropagatingBoxesLib.240618.js"></script>
+    <script src="../PropagatingSemiconductorsLib.240618.js"></script>
+    
+    <!-- Editor Logic -->
+    <script src="editor.js"></script>
+</body>
+</html>

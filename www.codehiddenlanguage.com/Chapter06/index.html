@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter06/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:05:32 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: Chapter 6</title>
+        <link rel="stylesheet" href="../style.240618.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>Chapter 6. Logic with Switches</h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                This chapter explores how simple circuits constructed from switches, batteries, lightbulbs, and wires
+                can carry out logical operations. 
+            </p>
+            <p>
+                In these circuits, toggle the state of the switches with either mouse clicks or finger taps.
+                The color red indicates that electricity is flowing through the circuit. 
+            </p>
+        </div>
+
+        <h3>Switches in Series (page 50)</h3>
+
+        <div class="narrative">
+            <p>
+                A pair of switches can be wired in series to implement the logical operation AND.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasSeries" width="640" height="400">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Switches in Parallel (page 52)</h3>
+
+        <div class="narrative">
+            <p>
+                Wired in parallel, the pair of switches implement the logical operation OR.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasParallel" width="640" height="400">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Kitten Selector (page 54)</h3>
+
+        <div class="narrative">
+            <p>
+                More complex logical expressions can be realized by combinations of switches in series
+                and parallel, such as this circuit to determine if a particular kitten satisfies a 
+                set of criteria:
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasKittens" width="800" height="550">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+        <script src="../PropagatingLogicLib.240618.js"></script>
+        <script src="../PropagatingIoLib.240618.js"></script>
+        <script src="../StructuredLayoutLib.240618.js"></script>
+        <script src="Chapter06SwitchesInSeries.json.js"></script>
+        <script src="Chapter06SwitchesInParallel.json.js"></script>
+        <script src="Chapter06KittenSelector.json.js"></script>
+        <script>
+            new CircuitBuilder(canvasSeries, Chapter06SwitchesInSeries);
+            new CircuitBuilder(canvasParallel, Chapter06SwitchesInParallel);
+            new CircuitBuilder(canvasKittens, Chapter06KittenSelector);
+        </script>
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter06/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:05:38 GMT -->
+</html>

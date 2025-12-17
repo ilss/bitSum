@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter15/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:05:59 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: Chapter 15</title>
+        <link rel="stylesheet" href="../style.240618.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>Chapter 15. Is This for Real?</h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                This page describes material that is not in the book. 
+            </p>
+            <p>
+                Chapter 14 of <i>Code</i> demonstrates how a digital adder can be built from logic gates.
+                Chapter 15 then continues the discussion showing how such an adder became one of 
+                the crucial components of early computers in the 1930s, and how later 
+                developments allowed logic gates to be built from vacuum tubes, 
+                transistors, and eventually, integrated circuits.
+            </p>
+
+            <p>
+                Regardless how logic gates are built, they always have a finite <i>propagation delay</i>. 
+                This is the time it takes for a change in an input to be reflected in the output.
+                When outputs of logic gates become inputs to other logic gates, 
+                the propagation delay of each individual gate affects the overall speed of the circuit.
+            </p>
+
+            <p>
+                The 8-bit adder shown towards the end of Chapter 14 is constructed from a series of cascaded one-bit adders.
+                Each bit potentially generates a <b>Carry</b> value that is required for the next more significant bit.
+                This is known as a “ripple carry.” The overall speed of the adder is the product of the propagation delay of
+                the one-bit adder and the number of bits. 
+            </p>
+
+            <p>
+                Towards the end of Chapter 15, mention is made of a “look-ahead carry generator,”
+                also known as a “carry lookahead adder” or a “fast adder” (such as in this
+                <a href="https://en.wikipedia.org/wiki/Carry-lookahead_adder">Wikipedia article</a>).
+                This is a circuit that takes a different approach to determining each <b>Carry</b> bit,
+                and the result is an overall increase in speed.
+            </p>
+
+            <p>
+                In general, sometimes a circuit can be made faster by removing logic gates to make it simpler and more efficient.
+                But other times, making a circuit faster requires <i>additional</i> logic gates.
+                This is the case with the look-ahead carry generator.
+                These additional logic gates are required for a faster calculation of the <b>Carry</b> bits.
+            </p>
+        </div>
+
+        <h3>One-Bit Full Adder with XOR Gates</h3>
+
+        <div class="narrative">
+            <p>
+                Here is the one-bit full adder built from two half adders, each of which requires an XOR gate
+                for the sum and an AND gate for the carry:
+            </p>
+            <p>
+                As with the adders shown in Chapter 14, you can click on the square input buttons at the left and 
+                on the top to change the results shown at the right.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasOneBitFullXor" width="900" height="400">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>One-Bit Full Adder with Separate Gates</h3>
+
+        <div class="narrative">
+            <p>
+                This circuit can also be shown using the separate NAND, OR, and AND gates that make up each XOR gate:
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasOneBitFullAdder" width="950" height="430">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                This circuit is just slightly different from 
+                the One-Bit Full Adder on the Chapter 14 page. 
+                The OR and NAND gates that contribute to the XOR gate have been switched around 
+                so that the NAND gate is now above the OR gate.
+                It makes no difference in how the circuit works.
+                It's really just a cosmetic difference that will help with a variation of this circuit coming up.
+            </p>
+
+            <p>
+                In either case, all the combinations of inputs are summarized by this logic table, 
+                where <b>CI</b> stands for <b>Carry In</b> and <b>CO</b> stands for <b>Carry Out</b>:
+            </p>
+           
+            <table>
+                <tbody>
+                    <tr><th colspan="3">Inputs</th><th colspan="2">Outputs</th></tr>
+                    <tr><th>A</th><th>B</th><th>CI</th><th>Sum</th><th>CO</th></tr>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>                    
+                    <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>                    
+                    <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>                    
+                    <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>                    
+                    <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>                    
+                    <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>                    
+                    <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>                    
+                    <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                </tbody>
+            </table>
+
+            <p>
+                As a first step in building a look-ahead carry generator, it's useful to analyze the different ways
+                that a <b>Carry Out</b> bit can become 1:
+            </p>
+
+            <p>
+                In some cases, the <b>Carry Out</b> bit is <i>generated</i>, which means that it results from values of the <b>A</b> and <b>B</b> inputs.
+                Specifically, <b>Carry Out</b> is generated if both <b>A</b> and <b>B</b> are 1.
+            </p>
+
+            <p>
+                In other cases, the Carry Out bit is <i>propagated</i>, which means that it results from a <b>Carry In</b> value of 1
+                in combination with the <b>A</b> and <b>B</b> inputs.
+                This table shows the cases where the <b>Carry Out</b> bit is generated and propagated:
+            </p>
+
+            <table>
+                <tbody>
+                    <tr><th colspan="3">Inputs</th><th colspan="2">Outputs</th><th colspan="2">Carry Type</th></tr>
+                    <tr><th>A</th><th>B</th><th>CI</th><th>Sum</th><th>CO</th><th>Generate</th><th>Propagate</th></tr>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td><td></td></tr> 
+                    <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>  
+                    <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td><td></td></tr>  
+                    <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>✓</td><td></td></tr>  
+                    <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td></td><td></td></tr>  
+                    <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td></td><td>✓</td></tr>  
+                    <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td></td><td>✓</td></tr>  
+                    <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>✓</td><td>✓</td></tr>
+                </tbody>
+            </table>
+
+            <p>
+                Let's define two values named <b>G</b> (for Generate) and <b>P</b> (for Propagate): 
+            </p>
+            <p>
+                <b>G</b> is 1 if both <b>A</b> <i>and</i> <b>B</b> are 1, which indicates when a <b>Carry Out</b> value of 1 is generated:
+            </p>
+
+            <ul style="list-style-type:none">
+                <li>G = A AND B</li>
+            </ul>
+
+            <p>
+                <b>P</b> is 1 if either <b>A</b> <i>or</i> <b>B</b> is 1:
+            </p>
+                
+            <ul style="list-style-type:none">
+                <li>P = A OR B</li>
+            </ul>
+
+            <p>
+                The value <b>P</b> by itself does not indicate that the <b>Carry</b> bit is propagated; 
+                instead, the <b>Carry</b> bit is propagated if both <b>P</b> and <b>Carry In</b> are 1. 
+            </p>
+            <p>
+                The final column in this table shows how the <b>Carry Out</b> bit can be calculated from 
+                <b>G</b>, <b>P</b>, and <b>Carry In</b>:
+            </p>
+
+            <table>
+                <tbody>
+                    <tr><th colspan="3">Inputs</th><th colspan="2">Outputs</th><th colspan="3">Carry Calculation</th></tr>
+                    <tr><th>A</th><th>B</th><th>CI</th><th>Sum</th><th>CO</th><th>G = A AND B</th><th>P = A OR B</th><th>CO = G OR (P AND CI)</th></tr>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr> 
+                    <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>  
+                    <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>  
+                    <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>  
+                    <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>  
+                    <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>  
+                    <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>  
+                    <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <h3>One-Bit Full Adder with Improvement</h3>
+
+        <div class="narrative">
+            <p>
+                Interestingly, the previous one-bit adder does <i>not</i> calculate the <b>Carry Out</b> bit exactly like 
+                the final column of this table indicates, 
+                but the circuit can be modified slightly so that it does:  
+            </p>
+        </div>
+
+       <div class="canvas-container">
+            <canvas id="canvasOneBitImproved" width="950" height="450">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                What's interesting is that this circuit is a little speedier than the previous circuit. 
+                The <b>Carry Out</b> is now calculated through a chain of the three logic gates at the bottom of the circuit
+                rather than four logic gates used in the previous circuit.
+                Progress is already being made!
+            </p>
+            <p>
+                Suppose you have four one-bit adders that you want to use to add a pair of four-bit binary numbers.
+                Each of the four addition operations can be can be associated with a subscript: 
+                0 for the least significant bit, 
+                1 for the next bit, then 2, and 3 for the most significant bit.
+            </p>
+            <p>
+                For each of the four one-bit adders, the <b>Carry Out</b> bit can be calculated using the formula shown in the previous table:
+            </p>
+
+            <ul style="list-style-type:none">
+                <li>CO<sub>0</sub> = G<sub>0</sub> OR (P<sub>0</sub> AND CI<sub>0</sub>)</li>
+                <li>CO<sub>1</sub> = G<sub>1</sub> OR (P<sub>1</sub> AND CI<sub>1</sub>)</li>
+                <li>CO<sub>2</sub> = G<sub>2</sub> OR (P<sub>2</sub> AND CI<sub>2</sub>)</li>
+                <li>CO<sub>3</sub> = G<sub>3</sub> OR (P<sub>3</sub> AND CI<sub>3</sub>)</li>
+            </ul>
+
+            <p>
+                But the <b>Carry Out</b> bit of each bit adder becomes the <b>Carry In</b> bit for the next most signficant bit, 
+                so the <b>Carry In</b> bits can also be calculated:
+            </p>
+
+            <ul style="list-style-type:none">
+                <li>CI<sub>1</sub> = C0<sub>0</sub> = G<sub>0</sub> OR (P<sub>0</sub> AND CI<sub>0</sub>)</li>
+                <li>CI<sub>2</sub> = C0<sub>1</sub> = G<sub>1</sub> OR (P<sub>1</sub> AND CI<sub>1</sub>)</li>
+                <li>CI<sub>3</sub> = C0<sub>2</sub> = G<sub>2</sub> OR (P<sub>2</sub> AND CI<sub>2</sub>)</li>
+            </ul>
+
+            <p>
+                Notice that the formula for <b>CI<sub>2</sub></b> ends with <b>CI<sub>1</sub></b>, 
+                but the line above it indicates that <b>CI<sub>1</sub></b>
+                is equal to a combination of <b>G<sub>0</sub></b>, <b>P<sub>0</sub></b>, and <b>CI<sub>0</sub></b>, 
+                so you can rewrite that formula like this:
+            </p>
+
+            <ul style="list-style-type:none">
+                <li>CI<sub>2</sub> = G<sub>1</sub> OR (P<sub>1</sub> AND (G<sub>0</sub> OR (P<sub>0</sub> AND CI<sub>0</sub>)))</li>
+            </ul>
+
+            <p>
+                This formula no longer requires <b>CI<sub>1</sub></b>, which means that <b>CI<sub>2</sub></b> can be calculated 
+                without the previous <b>Carry</b> bit. 
+            </p>
+
+            <p>
+                At this point, using the words OR and AND become a little awkward, and it's best to switch to the 
+                algebraic notation where + is used for OR and · is used for AND. 
+                Each of the <b>Carry In</b> bits can be shown as a combination of the various <b>G</b> and <b>P</b> values and <b>CI<sub>0</sub></b>.
+                If only a four-bit addition is desired, then <b>CI<sub>0</sub></b> is normally set to 0, 
+                but let's make it more generalized:
+            </p>
+
+            <ul style="list-style-type:none">
+                <li>CI<sub>1</sub> = G<sub>0</sub> + (CI<sub>0</sub> · P<sub>0</sub>)</li>
+                <li>CI<sub>2</sub> = G<sub>1</sub> + (G<sub>0</sub> · P<sub>1</sub>) + (CI<sub>0</sub> · P<sub>0</sub> · P<sub>1</sub>)</li>
+                <li>CI<sub>3</sub> = G<sub>2</sub> + (G<sub>1</sub> · P<sub>2</sub>) + (G<sub>0</sub> · P<sub>1</sub> · P<sub>2</sub>) + (CI<sub>0</sub> · P<sub>0</sub> · P<sub>1</sub> · P<sub>2</sub>)</li>
+                <li>CI<sub>4</sub> = G<sub>3</sub> + (G<sub>2</sub> · P<sub>3</sub>) + (G<sub>1</sub> · P<sub>2</sub> · P<sub>3</sub>) + (G<sub>0</sub> · P<sub>1</sub> · P<sub>2</sub> · P<sub>3</sub>) + (CI<sub>0</sub> · P<sub>0</sub> · P<sub>1</sub> · P<sub>2</sub> · P<sub>3</sub>)</li>
+            </ul>
+
+            <p>
+                For more bits, the pattern continues, but let's stop here. 
+            </p>
+        </div>
+
+        <h3>Four-Bit Adder with Lookahead Carry</h3>
+
+        <div class="narrative">
+            <p>
+                The following circuit contains both a four-bit adder with a ripple carry, 
+                and a four-bit adder with look-ahead circuitry. 
+                The four expressions shown above for the <b>Carry In</b> bits of the look-ahead adder 
+                are realized with OR and AND gates at the bottom of the figure. 
+            </p>
+
+            <p>
+                Use the square buttons at the top to set two four-bit values. 
+                The least-significant bit is on the right, and the most-significant bit is on the left.
+                You can also select a <b>Carry In</b> value at the far right.
+            </p>
+
+            <p>
+                Two rows of circular lights show the result.
+                The top row shows the result of the adder with the ripple carry, 
+                while the bottom row displays the result of the look-ahead carry.
+                The circles at the far left display the final <b>Carry</b> bit. 
+            </p>
+
+            <p>
+                This circuit has been set up so that each logic gate has a propagation delay of 250 milliseconds or 1/4 second.
+                This highlights the difference between the two circuits.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasFourBitAssemblage" width="1300" height="1000">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                The logic gates above the top row of result lights are dedicated to the adder using the ripple carry.
+                This circuitry is the same as the most recent one-bit adder you saw. 
+                Notice that the <b>Carry Out</b> value becomes the <b>Carry In</b> value of the next more significant bit.
+            </p>
+
+            <p>
+                The top four gates under the pairs of buttons are also shared by the look-ahead carry adder.
+                These gates perform the sum of the two bits, and also provide the crucial <b>G</b> and <b>P</b> signals.
+                Those three signals — the <b>Sum</b>, <b>G</b>, and <b>P</b> — are the vertical wires to the left of the result lights. 
+            </p>
+            
+            <p>
+                The three gates below the second row of results add the <b>Carry</b> bit to the sum, but for all bits 
+                except the first, that's provided by the complex array of OR and AND gates at the bottom.
+            </p>
+
+            <p>
+                For the most dramatic display of the speed difference, set the top row of buttons to 1111 and then press the 
+                <b>CI</b> button at the far right. 
+            </p>
+            <p>
+                (Thanks to Elyjah Kiehne of SOU for detecting an error in this circuit!) 
+            </p>
+        </div>
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+        <script src="../PropagatingLogicLib.240618.js"></script>
+        <script src="../PropagatingIoLib.240618.js"></script>
+        <script src="../PropagatingGatesLib.240618.js"></script>
+        <script src="../StructuredLayoutLib.240618.js"></script>
+        <script src="Chapter15OneBitHalferXor.json.html"></script>
+        <script src="Chapter15OneBitFullAdderXor.json.js"></script>
+        <script src="Chapter15OneBitSummer.json.js"></script>
+        <script src="Chapter15OneBitHalfer.json.js"></script>
+        <script src="Chapter15OneBitFuller.json.js"></script>
+        <script src="Chapter15OneBitFullAdder.json.js"></script>
+        <script src="Chapter15OneBitSummerMod.json.js"></script>
+        <script src="Chapter15OneBitHalferMod1.json.js"></script>
+        <script src="Chapter15OneBitHalferMod2.json.js"></script>
+        <script src="Chapter15OneBitFullerMod.json.js"></script>
+        <script src="Chapter15OneBitImproved.json.js"></script>
+        <script src="Chapter15FourBitComponent.json.js"></script>
+        <script src="Chapter15FourBitComponentUI.json.js"></script>
+        <script src="Chapter15FourBitAssemblage.json.js"></script>
+        <script>
+            new CircuitBuilder(canvasOneBitFullXor, Chapter15OneBitFullAdderXor);
+            new CircuitBuilder(canvasOneBitFullAdder, Chapter15OneBitFullAdder);
+            new CircuitBuilder(canvasOneBitImproved, Chapter15OneBitImproved);
+            new CircuitBuilder(canvasFourBitAssemblage, Chapter15FourBitAssemblage);
+        </script>
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter15/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:06:13 GMT -->
+</html>

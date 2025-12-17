@@ -1,0 +1,14 @@
+HTTrack3.49-2 launched on Mon, 15 Dec 2025 15:05:07 at https://www.codehiddenlanguage.com/
+(winhttrack https://www.codehiddenlanguage.com/ -O "/Users/skrjs/websites/web1" -%v )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+15:07:54	Error: 	"Not Found" (404) at link https://www.codehiddenlanguage.com/Chapter15/Chapter15OneBitHalferXor.json.js (from https://www.codehiddenlanguage.com/Chapter15/)
+15:07:54	Error: 	"Not Found" (404) at link https://www.codehiddenlanguage.com/Chapter19/Chapter19ThreeToEightDecoder.json.js (from https://www.codehiddenlanguage.com/Chapter19/)
+15:07:54	Error: 	"Not Found" (404) at link https://www.codehiddenlanguage.com/Chapter19/Chapter19EightToOneSelector.json.js (from https://www.codehiddenlanguage.com/Chapter19/)
+
+HTTrack Website Copier/3.49-2 mirror complete in 2 minutes 47 seconds : 167 links scanned, 163 files written (1431154 bytes overall) [1259618 bytes received at 7542 bytes/sec], 338357 bytes transferred using HTTP compression in 33 files, ratio 30%, 30.6 requests per connection
+(3 errors, 0 warnings, 0 messages)

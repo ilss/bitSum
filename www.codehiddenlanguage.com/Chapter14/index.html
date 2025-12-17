@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter14/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:05:51 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: Chapter 14</title>
+        <link rel="stylesheet" href="../style.240618.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>Chapter 14. Adding with Logic Gates</h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                Addition is the most basic arithmetic operation. 
+                This chapter demonstrates how logic gates can add binary numbers.
+                In all these circuits, you select the digits to be added using the square buttons.
+                You can toggle these buttons with mouse clicks or finger taps. 
+                The output is shown in the circles. 
+            </p>
+            <p>
+                All the gates in these animations have their propagation times set to 100 milliseconds (1/10<sup>th</sup> second).
+                When you toggle one of the switches, you can see the bits propagating from left to right.
+            </p>
+        </div>
+
+        <h3>One-Bit Sum (pages 174)</h3>
+
+        <div class="narrative">
+            <p>
+                The journey of a complex adder begins with a single bit sum:
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasOneBit" width="780" height="350">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>One-Bit Half Adder (page 176)</h3>
+
+        <div class="narrative">
+            <p>
+                That sum must be supplemented with a <b>Carry</b> bit. 
+                Although the sum part of this circuit is shown in the book as an Exclusive-OR (XOR) gate,
+                the individual gates are shown here:
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasHalfAdder" width="800" height="500">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>One-Bit Full Adder (pages 177)</h3>
+
+        <div class="narrative">
+            <p>
+                Two adders are required to accomodate a <b>Carry In</b> bit. 
+                In the book, this is shown with a pair of half-adders encapsulated in a box, 
+                but here all the separate gates are shown.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasFullAdder" width="920" height="450">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Eight-Bit Adder (pages 180)</h3>
+
+        <div class="narrative">
+            <p>
+                Finally, entire bytes can be added by cascading eight one-bit adders.
+                The diagram in the book shows the encapsulated full adders but this animation shows all the individual logic gates.
+            </p>
+            <p>
+                Select the two binary values to be added by clicking or tapping the square buttons at the top.
+                The values in hexadecimal and decimal are shown at the far right.
+                The binary result is shown in the circles at the bottom, 
+                and the hexadecimal and decimal equivalents are shown at the far right.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas8BitAdder" width="1200" height="575">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                This circuit implements a ripple carry. 
+                The <b>Carry Out</b> from each bit must be calculated for the <b>Carry In</b> of the next most significant digit.
+                To see the full propagation delay, try setting the entire row of top buttons to 1, 
+                and then use the buttons in the second row to add 1 to that.
+            </p>
+        </div>
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+        <script src="../PropagatingLogicLib.240618.js"></script>
+        <script src="../PropagatingIoLib.240618.js"></script>
+        <script src="../PropagatingGatesLib.240618.js"></script>
+        <script src="../StructuredLayoutLib.240618.js"></script>
+        <script src="Chapter14OneBitSummer.json.js"></script>
+        <script src="Chapter14OneBitSum.json.js"></script>
+        <script src="Chapter14OneBitHalfer.json.js"></script>
+        <script src="Chapter14OneBitHalfAdder.json.js"></script>
+        <script src="Chapter14OneBitFuller.json.js"></script>
+        <script src="Chapter14OneBitFullAdder.json.js"></script>
+        <script src="Chapter14EightBitComponent.json.js"></script>
+        <script src="Chapter14EightBitAdder.json.js"></script>
+        <script>
+            new CircuitBuilder(canvasOneBit, Chapter14OneBitSum);
+            new CircuitBuilder(canvasHalfAdder, Chapter14OneBitHalfAdder);
+            new CircuitBuilder(canvasFullAdder, Chapter14OneBitFullAdder);
+            new CircuitBuilder(canvas8BitAdder, Chapter14EightBitAdder);
+        </script>
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter14/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:05:59 GMT -->
+</html>

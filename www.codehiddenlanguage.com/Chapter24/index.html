@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter24/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:31 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: Loops, Jumps, and Calls</title>
+        <link rel="stylesheet" href="../style.240618.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>Chapter 24. Loops, Jumps, and Calls</h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                
+            </p>
+            <p>
+
+            </p>
+        </div>
+
+        <h3>
+            The Enhanced CPU with Jump Instructions (pages 388 – 389)
+        </h3>
+
+        <div class="narrative">
+            <p>
+                This circuit is identical to the one on the <a href="../Chapter23/index.html">Chapter 23 page</a>
+                except that it also implements the Jump instructions.
+                In the bottom right of the diagram, the <b>Arithmetic Logic Unit</b> outputs
+                <b>CY Flag</b>, <b>Z Flag</b>, and <b>S Flag</b> signals, which are input to the <b>Instruction Decoder</b>.  
+            </p>
+            <p>
+                The memory block at the left includes four radio buttons that allow loading 
+                four different programs into memory. 
+                Each of these programs adds up a series of numbers. 
+                These programs are shown on the following pages of the book:
+            </p>
+
+            <ul>
+                <li>Page 380: Add numbers without looping</li>
+                <li>Pages 383–384: Add numbers with a loop</li>
+                <li>Pages 384–385: A shorter loop program</li>
+                <li>Page 386: Add numbers with a sentinel</li>
+            </ul>
+
+            <p>
+                When you click a radio button to load memory with another program,
+                you'll also want to click the <b>Reset</b> button to reset the 
+                <b>Program Counter</b> to 0000h.
+            </p>
+
+            <p>
+                In all cases, the numbers to be added begin at address 0020h rather 
+                than address 1000h as shown in the book. 
+                In all cases there are 6 numbers, 
+                which are the hexadecimal equivalents of 10, 20, 30, 40, 50, and 60. 
+                The first program has been modified to add 6 numbers rather than 5.
+            </p>
+            <p>
+                In all cases, the program sums these numbers to 210, or D2h.
+                This total is stored immediately after the HLT (76h) instruction.
+            </p>
+        </div>
+
+        <div class="canvas-container" style="position: relative">
+            <canvas id="canvasCentralProcessingUnit" width="2050" height="1300">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>
+            8080 Emulator (page 402)
+        </h3>
+
+        <div class="narrative">
+            <p>
+                The 8080 Emulator mentioned on page 402 of the book is part of an 8080 Assembler and Emulator 
+                available on the <a href="../Chapter27a/index.html">first of the Chapter 27</a> pages.
+                The two multiplication programs on pages 390 through 394 of the book are
+                included on that page. 
+            </p>
+        </div>
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+        <script src="../PropagatingLogicLib.240618.js"></script>
+        <script src="../PropagatingGatesLib.240618.js"></script>
+        <script src="../PropagatingIoLib.240618.js"></script>
+        <script src="../PropagatingBoxesLib.240618.js"></script>
+        <script src="../PropagatingDataPathLib.240618.js"></script>
+        <script src="../StructuredLayoutLib.240618.js"></script>
+        <script src="../PropagatingCpuBoxesLib.240618.js"></script>
+        <script src="../PropagatingMemoryLib.240618.js"></script>
+        <script src="../Chapter23/Chapter23CPUCommon.json.js"></script>
+        <script src="Chapter24CentralProcessingUnit.json.js"></script>
+        <script>
+            new CircuitBuilder(canvasCentralProcessingUnit, Chapter24CentralProcessingUnit);
+        </script>
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter24/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:32 GMT -->
+</html>

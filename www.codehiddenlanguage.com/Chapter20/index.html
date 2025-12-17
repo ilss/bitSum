@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter20/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:13 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: Automating Arithmetic</title>
+        <link rel="stylesheet" href="../style.240618.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>Chapter 20. Automating Arithmetic</h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                This chapter describes two circuits that automate addition.
+                The first is the Automated Accumulating Adder in which byte values are stored in memory.
+                The values are added and then the sum is stored in the first memory location with a zero byte.
+            </p>
+            <p>
+                The second is the Triple Byte Adder. 
+                This adds and substracts three-byte values stored in memory where each value is preceded by a one-byte code.
+            </p>
+            <p>
+                Random-access memory with a capacity of 1,024 bytes is symbolized by a rectangular area at the left of the circuit.
+                By clicking an entry, you can change the value. 
+                A text box will appear. 
+                Type in the new number in hexadecimal and click the <b>Write</b> button.
+            </p>
+            <p>
+                You might have to zoom out your web browser to see the entire circuit on a single screen. 
+            </p>
+        </div>
+
+        <h3>
+            Automated Accumulating Adder (pages 294 – 298)
+        </h3>
+
+        <div class="narrative">
+            <p>
+                The values in the <b>1K Memory</b> array at the left are the same as those described in the book. 
+                The <b>Counter</b> is outputting an address of 0000h, and the first byte is the <b>A</b> input to the <b>Adder</b>. 
+            </p>
+            <p>
+                To begin the accumulated adder, click the <b>Clock</b> button. 
+                The sum of the first byte in memory and 00h will be saved in the <b>Latch</b>.
+            </p>
+            <p>
+                Click the <b>Clock</b> button again, and the <b>Counter</b> advances to the next memory address of 0001h,
+                and the second byte of memory is accessed.
+                Clicking <b>Clock</b> again will save the new accumulated sum in the latch.
+            </p>
+            <p>
+                Keep going until the sum from the <b>Latch</b> is written into the first memory address whose contents are 00h.
+            </p>
+        </div>
+
+        <div class="canvas-container" style="position: relative">
+            <canvas id="canvasOneByteAdder"  width="1100" height="875">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                Press the <b>Clear</b> button to reset the <b>Flip-Flops</b>, <b>Counter</b>, and <b>Latch</b>.
+                The <b>Clear</b> button does not affect the contents of the <b>Memory</b>.
+                To restore the <b>Memory</b> to its  original values, refresh the browser page.
+            </p>
+            <p>
+                You might notice that the configuration of the two flip-flops is a little different from that shown in the book.
+                The version in the book is conceptually clearer because the first <b>Clock</b> click advances the <b>Counter</b>
+                while the second generates the Pulse signal.
+            </p>
+            <p>
+                However, that doesn't work quite right if the <b>Counter</b> begins at address 0000h.
+                In that case, the first <b>Clock</b> click must generate the Pulse signal and the second advances the <b>Counter</b>.
+                For this reasons, the two flip-flop start up in a set state, with the <b>Q</b> outputs equal to 1,
+                and the <b>Clear</b> button is connected to the <b>Preset</b> inputs of the flip-flops.
+            </p>
+            <p>
+                This same configuration of two flip-flops is used in the next program in this chapter
+                and in the <b>Instruction Decoder</b> in Chapter 23.
+            </p>
+        </div>
+
+        <h3>
+            Triple-Byte Accumulator (pages 303 – 311)
+        </h3>
+
+        <div class="narrative">
+            <p>
+                The values in the <b>1K Memory</b> array at the left are the same as those described in the book. 
+                The <b>Counter</b> is outputting an address of 0000h, and the first byte in memory is accessed.
+                This is an instruction byte.
+                To begin using the triple-byte adder, click the <b>Clock</b> button.
+                That first click saves the byte in the <b>Instruction Latch</b>.
+                The second click advances the <b>Counter</b> and the third click saves that byte in 
+                the <b>Low-Byte Latch</b>
+            </p>
+            <p>
+                The next four clicks of the <b>Clock</b> button advances the address to 0002h 
+                and latches the next most significant byte, 
+                and then advances the address to 0003 to latche the most-significant byte.
+            </p>
+            <p>
+                Continue in this way to add and subtract the next several numbers. When the instruction byte is 04h, 
+                the three bytes of the result are written into memory. 
+                When the instruction byte is 08h, the machine is halted.
+            </p>
+        </div>
+
+        <div class="canvas-container" style="position: relative">
+            <canvas id="canvasThreeByteAdder" width="1800" height="1250">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                Press the <b>Clear</b> button to clear the <b>Flip-Flops</b>, <b>Counter</b>, and <b>Latches</b>.
+                The <b>Clear</b> button does not affect the contents of the <b>Memory</b>.
+                To restore the <b>Memory</b> to its  original values, refresh the browser page.
+            </p>
+        </div>
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+        <script src="../PropagatingLogicLib.240618.js"></script>
+        <script src="../PropagatingGatesLib.240618.js"></script>
+        <script src="../PropagatingIoLib.240618.js"></script>
+        <script src="../PropagatingBoxesLib.240618.js"></script>
+        <script src="../PropagatingMemoryLib.240618.js"></script>
+        <script src="../PropagatingDataPathLib.240618.js"></script>
+        <script src="../StructuredLayoutLib.240618.js"></script>
+        <script src="Chapter20OneByteAdder.json.js"></script>
+        <script src="Chapter20ThreeByteAdder.json.js"></script>
+        <script>
+            new CircuitBuilder(canvasOneByteAdder, Chapter20OneByteAdder);
+            new CircuitBuilder(canvasThreeByteAdder, Chapter20ThreeByteAdder);
+        </script>
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter20/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:17 GMT -->
+</html>

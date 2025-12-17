@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter22/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:21 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: Registers and Busses</title>
+        <link rel="stylesheet" href="../style.240618.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>Chapter 22. Registers and Busses</h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                This chapter begins exploring how the various components of the CPU are connected with an 8-bit data bus and a 16-bit address bus,
+                The chapter focuses mostly on the Register Array, which stores bytes in seven registers 
+                called A (the <b>Accumulator</b>), B, C, D, E, H (for “high”), and L (for “low”).
+            </p>
+
+        </div>
+
+        <h3>
+            The Simple Register Array (page 344)
+        </h3>
+
+        <div class="narrative">
+            <p>
+                Here's the simple version of the Register Array.
+                Seven latches are labeled with letters corresponding to the seven registers.
+                However, for space considerations, the input and output signals of the latches are not labeled.
+                The 8-bit input of each latch is on the top; the output is on the bottom; the <b>Clock</b> signal is on the left.
+                These latches are controlled by the <b>Clock</b> and <b>Input Select</b> signals at the top left.
+            </p>
+            <p>
+                The outputs of the latches are combined with seven tri-state buffers.
+                As with the laches, the inputs are on the top; the outputs on the bottom; the <b>Enable</b> signals are on the right.
+                These are controlled with the <b>Enable</b> and <b>Output Select</b> signals at the top right.
+            </p>
+        </div>
+
+        <div class="canvas-container" style="position: relative">
+            <canvas id="canvasSimpleRegisterArray"  width="1350" height="725">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                The Accumulator is always available because that becomes the <b>A</b> input to the Arithmetic Logic Unit.
+            </p>
+        </div>
+
+        <h3>
+            The Incrementer / Decrementer (pages 350 – 351)
+        </h3>
+
+        <div class="narrative">
+            <p>
+                In a couple cases it's necessary to increment and decrement 16 bit values.
+                For this reason, it's convenient for the CPU to have a circuit dedicated for this job.
+            </p>
+        </div>
+
+        <div class="canvas-container" style="position: relative">
+            <canvas id="canvasIncrementerDecrementer" width="1400" height="800">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                You can dial up a 16-bit hexadecimal number using the spin control at the center top.
+                Each up-arrow and down-arrow controls a single digit.
+                Then, press the <b>Clock</b> button at the upper left to store that value in the 16-bit register.
+                Pressing either the <b>Decrement</b> or <b>Increment</b> button at the upper right 
+                will enable the tri-state buffer to display the result at the bottom. 
+            </p>
+            <p>
+                Watch out! If you experiement with various values, 
+                it's easy to forget to press the <b>Clock</b> to store the new value in the latch.
+            </p>
+        </div>
+
+        <h3>
+            The More Versatile Register Array (pages 347 and 352 – 353)
+        </h3>
+
+        <div class="narrative">
+            <p>
+                The (relatively) simple Register Array shown above needs to be enhanced in two ways to make it more versatile.
+                First, the <b>Accumulator</b> register needs to be independently controlled, 
+                so that values can be saved in the <b>Accumulator</b> and later retrieved. 
+                This is the additional circuitry at the left of the diagram.
+            </p>
+            <p>
+                Secondly, the <b>H</b> and <b>L</b> registers need to be connected to the address bus.
+                The <b>HL</b> register pair is used for addressing memory, 
+                and the register pair can be incremented and decremented. 
+                This requires more extensive modifications shown at the right
+            </p>
+            <p>
+                In the next chapter, this Register Array will be connected to an 8-bit data bus and a 16-bit address bus.
+                The data bus is symbolized here by the 8-bit spin control at the top and the <b>8-Bit Output</b> at the bottom.
+                The address bus is symbolized by the 16-bit spin control and the <b>16-bit Output</b>.
+            </p>
+        </div>
+
+        <div class="canvas-container" style="position: relative">
+            <canvas id="canvasVersatileRegisterArray" width="1900" height="950">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                This Register Array is compatible with the early Register Array but it also has five new control signals:
+            </p>
+            <p>
+                To save the value on the data bus (the value selected by the 8-bit spin control) in the Accumulator, 
+                press the <b>Accumulator Clock</b> button.
+                To expose the value of the Accumulator on the data bus, press the <b>Accumulator Enable</b> button.
+            </p>
+            <p>
+                The value on the address bus can be specified with the 16-bit spin control.
+                To save that in the <b>HL</b> register pair, first press <b>HL Select</b> so that button lights up. 
+                That selects the 32 bit value from the spin control. 
+                Then press <b>HL Clock</b> to save the 16-bit value in the <b>H</b> and <b>L</b> registers.
+                To expose the value of the <b>HL</b> register pair on the address bus 
+                (symbolized here by the <b>16-Bit Output</b> display), press the <b>HL Enable</b> button.
+            </p>
+        </div>
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+        <script src="../PropagatingLogicLib.240618.js"></script>
+        <script src="../PropagatingGatesLib.240618.js"></script>
+        <script src="../PropagatingIoLib.240618.js"></script>
+        <script src="../PropagatingBoxesLib.240618.js"></script>
+        <script src="../PropagatingDataPathLib.240618.js"></script>
+        <script src="../PropagatingAdvIoLib.240619.js"></script>
+        <script src="../PropagatingAdvBoxesLib.240618.js"></script>
+        <script src="../StructuredLayoutLib.240618.js"></script>
+        <script src="Chapter22SimpleRegisterArray.json.js"></script>
+        <script src="Chapter22IncrementerDecrementerBit.json.js"></script>
+        <script src="Chapter22IncrementerDecrementerBitE.json.js"></script>
+        <script src="Chapter22IncrementerDecrementerBitF.json.js"></script>
+        <script src="Chapter22IncrementerDecrementer.json.js"></script>
+        <script src="Chapter22VersatileRegisterArray.json.js"></script>
+        <script>
+            new CircuitBuilder(canvasSimpleRegisterArray, Chapter22SimpleRegisterArray);
+            new CircuitBuilder(canvasIncrementerDecrementer, Chapter22IncrementerDecrementer);
+            new CircuitBuilder(canvasVersatileRegisterArray, Chapter22VersatileRegisterArray);
+        </script>
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter22/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:27 GMT -->
+</html>

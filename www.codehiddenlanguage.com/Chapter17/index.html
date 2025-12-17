@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter17/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:06:16 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: Chapter 17</title>
+        <link rel="stylesheet" href="../style.240618.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>Chapter 17. Feedback and Flip-Flops</h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                This chapter explores feedback of various sorts, and particularly its use in flip-flops.
+            </p>
+        </div>
+
+        <h3>Oscillating Relay (pages 213)</h3>
+
+        <div class="narrative">
+            <p>
+                Begin with a simple oscillator built from a relay.
+                Turn the switch on with your mouse or finger to see the relay oscillate.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasOscillator" width="450" height="270">
+                    Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>First Flip-Flop (pages 217)</h3>
+
+        <div class="narrative">
+            <p>
+                The first flip-flop uses two NOR gates wired so that the output of each becomes
+                one of the inputs of the other. 
+            </p>
+            <p>
+                To turn on the lightbulb, toggle the top switch on and then off. 
+                The lightbulb remains on even though the switch is now off.
+            </p>
+            <p>
+                To turn off the lightbulb, toggle the bottom switch on and then off. The lightbulb remains off.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasFirstFF" width="900" height="320">
+                    Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Reset-Set Flip-Flop (pages 220)</h3>
+
+        <div class="narrative">
+            <p>
+                Here is that same flip-flop but rearranged to show its symmetry and with an additional output.
+            </p>
+            <p>
+                In real life use of this flip-flop, only one of the two inputs is 1 at any time.
+                For that reason, they have been changed to <i>momentary switches</i>:
+                The switch is on only when it's pressed. 
+            </p>
+            <p>
+                Press the bottom switch to set the <b>Q</b> output to 1. Any further taps of that button do nothing.
+                Press the top switch to reset the <b>Q</b> output to 0. Again, any further taps of that button do nothing.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasRS" width="620" height="380">
+                    Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Hold Flip-Flop (page 222)</h3>
+
+        <div class="narrative">
+            <p>
+                In this variation, the <b>Set</b> and <b>Reset</b> signals work similarly, 
+                but only when the Hold input is set to 1. 
+                The <b>Set</b> input is essentially saving the output of that Hold input to the <b>Q</b> output. 
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasHoldFF" width="880" height="420">
+                    Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Level-Triggered D-Type Flip-Flop (page 224)</h3>
+
+        <div class="narrative">
+            <p>
+                That flip-flop can easily be modified to create the standard level-triggered D-type flip-flop
+                shown below.
+                When <b>Clock</b> is 1, the <b>Data</b> input is transferred to the <b>Q</b> output.
+            </p>
+            <p>                
+                The term “level-triggered” means that when <b>Clock</b> is 1, 
+                any changes to the <b>Data</b> input are reflected in the <b>Q</b> output.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasLevel" width="880" height="420">
+                    Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Edge-Triggered D-Type Flip-Flop (page 229)</h3>
+
+        <div class="narrative">
+            <p>                
+                In the following “edge-triggered” flip-flop, 
+                the <b>Q</b> output is set from the <b>Data</b> input only when the <b>Clock</b> input transitions from 0 to 1.
+                Any further changes to the <b>Data</b> input do not affect the <b>Q</b> output.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasEdge" width="1020" height="300">
+                    Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Eight-Bit Accumulating Adder (page 231)</h3>
+
+        <div class="narrative">
+            <p>                
+                In the following circuit, an eight-bit adder is combined with an edge-triggered flip-flop
+                to create an accumulating adder. 
+            </p>
+            <p>
+                To use this adder, enter a binary number on the switches at the top. 
+                When you press the <b>Add</b> button, that value is stored in the flip-flops and displayed on the bottom.
+                But the value is also routed back to the adder below the switches.
+                You can enter a second number on the switches at the top and press <b>Add</b> again.
+                Now the result is the sum of the first two numbers.
+            </p>
+            <p>
+                You can continue as long as you want, but be aware that only eight bits are retained 
+                and the final <b>Carry</b> bit is discarded.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasAccumulator" width="1200" height="750">
+                    Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Eight-Bit Ripple Counter (page 235)</h3>
+
+        <div class="narrative">
+            <p>
+                Edge-triggered flip-flops can be cascaded and combined with an oscillator to create a counter. 
+                The oscillator is at the upper-left and has a period of about one second.
+                That provides a <b>Clock</b> input to the rightmost flip-flop, 
+                which then provides a <b>Clock</b> input to the next most-significant flip-flop.
+            </p>
+            <p>
+                The value at the bottom shows the number of seconds that have elapsed, 
+                but it’s based on JavaScript animation facilities and might be imprecise.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasCounter" width="1200" height="625">
+                    Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Level-Triggered D-Type Flip-Flop with Clear (page 238)</h3>
+
+        <div class="narrative">
+            <p>
+                A <b>Clear</b> signal is often convenient to set the output of
+                a flip-flop to 0 regardless of the other inputs.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasLevelClear" width="975" height="375">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Edge-Triggered D-Type Flip-Flop with Clear and Preset (page 238)</h3>
+
+        <div class="narrative">
+            <p>
+                Here's an edge-triggered flip-flop decked out with both <b>Clear</b> and <b>Preset</b> inputs.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasEdgeClearPreset" width="800" height="500">
+                    Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+        <script src="../PropagatingLogicLib.240618.js"></script>
+        <script src="../PropagatingRelayLib.240618.js"></script>
+        <script src="../PropagatingGatesLib.240618.js"></script>
+        <script src="../PropagatingIoLib.240618.js"></script>
+        <script src="../StructuredLayoutLib.240618.js"></script>
+        <script src="Chapter17OscillatingRelay.json.js"></script>
+        <script src="Chapter17FirstFlipFlop.json.js"></script>
+        <script src="Chapter17FlipFlopCoreRS.json.js"></script>
+        <script src="Chapter17RSFlipFlop.json.js"></script>
+        <script src="Chapter17FlipFlopCoreD.json.js"></script>
+        <script src="Chapter17HoldFlipFlop.json.js"></script>
+        <script src="Chapter17DTypeFlipFlop.json.js"></script>
+        <script src="Chapter17FlipFlopCoreEdge.json.js"></script>
+        <script src="Chapter17EdgeTriggeredFlipFlop.json.js"></script>
+        <script src="../Chapter14/Chapter14OneBitSummer.json.js"></script>
+        <script src="../Chapter14/Chapter14OneBitHalfer.json.js"></script>
+        <script src="../Chapter14/Chapter14OneBitFuller.json.js"></script>
+        <script src="Chapter17EightBitAdderComponent.json.js"></script>
+        <script src="Chapter17EightBitAccumulatingAdder.json.js"></script>
+        <script src="Chapter17EightBitRippleComponent.json.js"></script>
+        <script src="Chapter17EightBitRippleCounter.json.js"></script>
+        <script src="Chapter17FlipFlopCoreDClear.json.js"></script>
+        <script src="Chapter17DTypeFlipFlopWithClear.json.js"></script>
+        <script src="Chapter17FlipFlopCoreClearPreset.json.js"></script>
+        <script src="Chapter17EdgeTriggeredFlipFlopWithClear.json.js"></script>
+        <script>
+            new CircuitBuilder(canvasOscillator, Chapter17OscillatingRelay);
+            new CircuitBuilder(canvasFirstFF, Chapter17FirstFlipFlop);
+            new CircuitBuilder(canvasRS, Chapter17RSFlipFlop);
+            new CircuitBuilder(canvasHoldFF, Chapter17HoldFlipFlop);
+            new CircuitBuilder(canvasLevel, Chapter17DTypeFlipFlop);
+            new CircuitBuilder(canvasEdge, Chapter17EdgeTriggeredFlipFlop);
+            new CircuitBuilder(canvasAccumulator, Chapter17EightBitAccumulatingAdder);
+            new CircuitBuilder(canvasCounter, Chapter17EightBitRippleCounter);
+            new CircuitBuilder(canvasLevelClear, Chapter17DTypeFlipFlopWithClear);
+            new CircuitBuilder(canvasEdgeClearPreset, Chapter17EdgeTriggeredFlipFlopWithClear);
+        </script>
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter17/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:06:33 GMT -->
+</html>

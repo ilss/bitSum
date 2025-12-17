@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter16/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:06:13 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: Chapter 16</title>
+        <link rel="stylesheet" href="../style.240618.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>Chapter 16. But What About Subtraction?</h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                This chapter expands on the adders shown in Chapter 14 to implement subtraction.
+            </p>
+        </div>    
+
+        <h3>Eight-Bit Adder/Subtractor (pages 180)</h3>
+
+        <div class="narrative">
+            <p>
+                This first circuit is very similar to the eight-bit adder shown at the end of Chapter 14.
+                However, notice that the plus sign to the left in now implemented in a button. 
+                You can toggle that button between addition and subtraction.
+            </p>
+
+            <p>
+                When you choose to subtract the second number from the first, an array of XOR gates 
+                inverts the values of the second row of buttons (which calculates the ones’ complement), 
+                and sets <b>Carry In</b> at the right to 1, which effectively forms the two’s complement.
+                The two numbers are then added.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas8BitAddSub" width="1225" height="665">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                If an addition results in a value greater than 255,
+                or a subtraction results in a value less than zero, 
+                this is indicated by the <b>Overflow</b> output, and the result is invalid.
+                When such an adder is cascaded with other adders for a larger value, 
+                that overflow might be treated as a <b>Carry</b> or a <b>Borrow</b>.
+            </p>
+        </div>
+
+        <h3>Eight-Bit Two’s Complement Adder (pages 210)</h3>
+
+        <div class="narrative">
+            <p>
+                The following adder is dedicated to adding a pair of eight-bit two’s complement numbers
+                that range from 80h (decimal &#x2013;128) through 7Fh (decimal 127).
+                The hexadecimal and decimal equivalents of the values you choose are shown at the right.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasTwosCompAdder" width="1250" height="590">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                If one value is positive and the other negative, the result is always valid as indicated by an <b>Overflow</b> value of 0.
+                But if the two values are positive and the sum is greater than 127, 
+                or the two values are negative and the sum is less than &#x2013;128, an <b>Overflow</b> value of 1 indicates a problem.
+            </p>
+        </div>
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+        <script src="../PropagatingLogicLib.240618.js"></script>
+        <script src="../PropagatingIoLib.240618.js"></script>
+        <script src="../PropagatingGatesLib.240618.js"></script>
+        <script src="../StructuredLayoutLib.240618.js"></script>
+        <script src="../Chapter14/Chapter14OneBitSummer.json.js"></script>
+        <script src="../Chapter14/Chapter14OneBitHalfer.json.js"></script>
+        <script src="../Chapter14/Chapter14OneBitFuller.json.js"></script>
+        <script src="../Chapter14/Chapter14EightBitComponent.json.js"></script>
+        <script src="Chapter16EightBitAddSubComponent.json.js"></script>
+        <script src="Chapter16EightBitAddSub.json.js"></script>
+        <script src="Chapter16TwosCompAdder.json.js"></script>
+        <script>
+            new CircuitBuilder(canvas8BitAddSub, Chapter16EightBitAddSub);
+            new CircuitBuilder(canvasTwosCompAdder, Chapter16TwosCompAdder);
+        </script>
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter16/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:06:16 GMT -->
+</html>

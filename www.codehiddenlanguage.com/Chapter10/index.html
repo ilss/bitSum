@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter10/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:05:48 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: Chapter 10</title>
+        <link rel="stylesheet" href="../style.240618.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>Chapter 10. Alternative 10s</h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                Although this chapter is about alternative number bases (including binary),
+                it concludes with two circuits that demonstrate how binary numbers can be interpreted or generated
+                by circuits using logic gates. 
+            </p>
+        </div>
+
+        <h3>Three-to-Eight Decoder (page 114)</h3>
+
+        <div class="narrative">
+            <p>
+                The first circuit, called a <i>decoder</i>, shows the decimal value of a three digit binary number. 
+                Toggle the switches at the top with mouse clicks or finger taps. 
+                The illuminated light at the bottom shows the value of that binary number.
+                For example, binary 101 is decimal 5. 
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas3to8" width="850" height="625">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Eight-to-Three Encoder (page 116)</h3>
+
+        <div class="narrative">
+            <p>
+                This second circuit is called an <i>encoder</i>. 
+                Use your mouse or finger to drag the oblong bar at the top to a particular decimal number from 0 through 7.
+                The output at the bottom shows the value of that number in binary. 
+                For example, decimal 6 is binary 110.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas8to3" width="400" height="650" style="touch-action: none">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>How Many Two-Input Gates Are There?</h3>
+
+        <div class="narrative">
+            <p>
+                In Chapter 8, you were introduced to the four standard two-input gates: AND, OR, NAND, and NOR. 
+                But you may have wondered: Are there others, and if so, how many others are there?
+            </p>
+            <p>
+                Sixteen. There are 16 unique two-input gates.
+            </p>
+            <p>
+                You can convince yourself of this fact by putting together a table that shows 
+                all the combinations of inputs (represented by <b>A</b> and <b>B</b>) and the resultant output.
+                Each row starting with the row labeled <b>Output</b> is a different possible two-input gate:
+            </p>
+
+            <table>
+                <tr><th>A:</th><th>0</th><th>0</th><th>1</th><th>1</th></tr>
+                <tr><th>B:</th><th>0</th><th>1</th><th>0</th><th>1</th></tr>
+                <tr><th>Output:</th><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><th></th><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+                <tr><th></th><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+                <tr><th></th><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+                <tr><th></th><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+                <tr><th></th><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+                <tr><th></th><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+                <tr><th></th><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+                <tr><th></th><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><th></th><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+                <tr><th></th><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+                <tr><th></th><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+                <tr><th></th><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+                <tr><th></th><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+                <tr><th></th><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+                <tr><th></th><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+            </table>
+
+            <p>
+                You know you've accounted for all the possibilities because the sixteen rows of <b>Output</b>
+                are the binary numbers for 0 through 15.
+            </p>
+
+            <p>
+                Some of these possible two-input gates are trivial, such as the first and last, 
+                which don't depend on any of the inputs. 
+                Some of them only depend on one of the inputs.
+                But they all can be represented by combinations of more basic logical operations possible with the standard four gates
+                and the inverter:
+            </p>
+
+            <table>
+                <tr><th>A:</th><th>0</th><th>0</th><th>1</th><th>1</th></tr>
+                <tr><th>B:</th><th>0</th><th>1</th><th>0</th><th>1</th><th>Logical operation</th></tr>
+                <tr><th>Output:</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0 (ground)</td></tr>
+                <tr><th></th><td>0</td><td>0</td><td>0</td><td>1</td><td>AND</td></tr>
+                <tr><th></th><td>0</td><td>0</td><td>1</td><td>0</td><td>A AND NOT B</td></tr>
+                <tr><th></th><td>0</td><td>0</td><td>1</td><td>1</td><td>A</td></tr>
+                <tr><th></th><td>0</td><td>1</td><td>0</td><td>0</td><td>NOT A AND B</td></tr>
+                <tr><th></th><td>0</td><td>1</td><td>0</td><td>1</td><td>B</td></tr>
+                <tr><th></th><td>0</td><td>1</td><td>1</td><td>0</td><td>(A OR B) AND (A NAND B)</td></tr>
+                <tr><th></th><td>0</td><td>1</td><td>1</td><td>1</td><td>OR</td></tr>
+                <tr><th></th><td>1</td><td>0</td><td>0</td><td>0</td><td>NOR</td></tr>
+                <tr><th></th><td>1</td><td>0</td><td>0</td><td>1</td><td>(A NOR B) OR (A AND B)</td></tr>
+                <tr><th></th><td>1</td><td>0</td><td>1</td><td>0</td><td>NOT B</td></tr>
+                <tr><th></th><td>1</td><td>0</td><td>1</td><td>1</td><td>A OR NOT B</td></tr>
+                <tr><th></th><td>1</td><td>1</td><td>0</td><td>0</td><td>NOT A</td></tr>
+                <tr><th></th><td>1</td><td>1</td><td>0</td><td>1</td><td>NOT A OR B</td></tr>
+                <tr><th></th><td>1</td><td>1</td><td>1</td><td>0</td><td>NAND</td></tr>
+                <tr><th></th><td>1</td><td>1</td><td>1</td><td>1</td><td>1 (V)</td></tr>
+            </table>
+
+            <p>
+                If you study this table closely, you'll see that the top half of the <b>Output</b> section
+                is a mirror image of the bottom half: 0 (the top row) is the opposite of 1 (the bottom row); 
+                AND (the second row) is the opposite of NAND (the penultimate row); and so forth.
+            </p>
+
+            <p>
+                The two longest and most complex logical operations are towards the center. 
+                In the first case, the output is 1 when either <b>A</b> and <b>B</b> is 1 but not both;
+                and in the second case, the output is 1 when either <b>A</b> and <b>B</b> are both 0 or both 1.
+            </p>
+            <p>
+                The first case — an output is 1 when either <b>A</b> or <b>B</b> is 1 but not both — turns out 
+                to be very important for performing a very common task, as you'll see in Chapter 14.
+            </p>
+        </div>
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+        <script src="../PropagatingLogicLib.240618.js"></script>
+        <script src="../PropagatingIoLib.240618.js"></script>
+        <script src="../PropagatingGatesLib.240618.js"></script>
+        <script src="../PropagatingAdvIoLib.240619.js"></script>
+        <script src="../StructuredLayoutLib.240618.js"></script>
+        <script src="Chapter10ThreeToEightDecoder.json.js"></script>
+        <script src="Chapter10EightToThreeEncoder.json.js"></script>
+        <script>
+            new CircuitBuilder(canvas3to8, Chapter10ThreeToEightDecoder);
+            new CircuitBuilder(canvas8to3, Chapter10EightToThreeEncoder);
+        </script>
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter10/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:05:51 GMT -->
+</html>

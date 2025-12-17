@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter27a/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:32 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: Coding in Assembly Language</title>
+        <link rel="stylesheet" href="../style.240618.css">
+        <style>
+            html,body{height:100%}
+
+
+            label { width: 100px; float: left}
+            label:after { content: ": "}
+            #slider { width: 375px;}
+            form { width: 600px; margin: 0 auto; }
+
+            textarea
+            {
+                display: block;
+            }
+/*
+            dialog
+            {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+            }
+*/
+            .menu
+            {
+                position: relative;
+                display: inline-block;
+            }
+
+            .submenu 
+            {
+                display: none;
+                position: absolute;
+                z-index: 1;
+                background-color: #f0f0f0;
+            }
+/*
+            .menu:hover .submenu
+            {
+                display: block;
+            }
+*/
+            .mainMenuItem
+            {
+                min-width: 80px;
+                text-align: left;
+                background-color: transparent;
+                border: none;
+            }
+
+            .subMenuItem
+            {
+                min-width: 120px;
+                text-align: left;
+                background-color: transparent;
+                border: none;
+                margin-left:10px;
+            }
+
+            .subMenuItem:hover
+            {
+                background-color: #e0e0e0;
+            }
+/*
+            .dlgbox
+            {
+                display: none;
+                position: absolute;
+                width: 40em;
+                height: fit-content;
+                border: 2px solid black;
+                background-color: cyan;
+                margin-left: 20px;
+                margin-top: 50px;
+                padding: 10px;
+            }
+*/
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>
+                Chapter 27. Coding: Assembly Language
+            </h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                Chapter 27 is about writing computer programs, 
+                an activity variously known as software engineering, programming, or coding.
+            </p>
+            <p>
+                Two types of coding are described in this chapter:
+                Assembly language programming based on the the Intel 8080 processor
+                on this page, and on another page, <a href="../Chapter27b/index.html">high-level programming using 
+                JavaScript</a>. 
+            </p>
+        </div>
+
+        <h3>
+            8080 Assembly Language Programming
+        </h3>
+
+        <div class="narrative">
+            <p>
+                This is an emulation of an Intel 8080 microprocessor written in JavaScript.
+                It has four main components:      
+            </p>
+            <ul>
+                <li>An <b>Editor</b> to enter, edit, and save assembly language programs.</li>
+                <li>An annotated block of <b>Memory</b> used to show the assembled machine code.</li>
+                <li>The <b>CPU</b> emulator that allows you to run the program or step through instructions.</li>
+                <li>A <b>Console</b> to display program output and read keyboard input</li>
+            </ul>
+            <p>
+                These components are described further down this page.
+            </p>
+        </div>
+
+        <!-- Editor -->
+        <div style="margin: auto; border-style: solid; width: fit-content">
+            <h4 id="editorTitlebar" style="margin: 0px;">
+                Editor - Untitled
+            </h4>
+
+            <div class="menu">
+                <button id="menuFile" class="mainMenuItem">File</button>
+                <div id="fileSubmenu" class="submenu">
+                    <button class="subMenuItem" id="fileNew">New</button>
+                    <button class="subMenuItem" id="fileOpen">Open...</button>
+                    <button class="subMenuItem" id="fileSave">Save</button>
+                    <button class="subMenuItem" id="fileSaveAs">Save As...</button>
+                    <hr />
+                    <button class="subMenuItem" id="fileInsert">Insert file...</button>
+                    <button class="subMenuItem" id="fileSaveSelection">Save selection...</button>
+                </div>
+            </div>
+
+            <!-- Query File Save Dialog -->
+            <dialog id="queryFileSaveDialog">
+                <p>Do you want to save changes to <span id="queryFileSaveFilename"></span></p>
+                <div style="text-align:right">
+                    <button id="queryFileSaveSaveButton" autofocus="true">Save</button>
+                    <button id="queryFileSaveDontButton">Don't Save</button>
+                    <button id="queryFileSaveCancelButton">Cancel</button>
+                </div>
+            </dialog>
+
+            <!-- File Open / Save Dialog -->
+            <dialog id="fileDialog">
+                <div style="display: grid; grid-template-columns: 175px 175px 175px 175px">
+                    <p id="dialogHeader" style="grid-column: 1 / span 4; grid-row: 1; margin-top: 0px; font-size: 125%; font-weight: bold">
+                        Open / Save As 
+                    </p>
+
+                    <select id="filelist" style="grid-column: 1 / 3; grid-row:2" size="18"></select>
+
+                    <div id="filedesc" style="grid-column: 3 / span 2; grid-row: 2; margin: 5px"></div>
+
+                    <div style="grid-column: 1 / 4; grid-row: 3; margin-top: 10px">
+                        <!-- TODO: Label has style set above! -->
+                        <label>File name:</label>
+                        <input id="filename" size="50"/>
+                    </div>
+
+                    <div id="readOnlyWarning" style="grid-column: 1 / 4; grid-row: 4; color:Red; visibility: hidden; position: relative; margin-top: 5px">
+                        File is read-only. Choose another file name.
+                        <div id="fileNotFoundWarning" style="color:Red; visibility: hidden; position: absolute; top: 0; left: 0">
+                            File not found. Choose another file name.
+                        </div>
+                    </div>
+
+                    <div style="grid-column: 3 / 5; grid-row: 4; text-align: right">
+                        <button id="dlgOpenSaveButton">Open / Save</button>
+                        <button id="dlgCancelButton">Cancel</button>
+                    </div>
+                </div>
+            </dialog>
+            
+            <textarea id="asmeditbox" rows="24" cols="100" spellcheck="false" wrap="off"
+                        style="display: block; margin: auto;" autofocus></textarea>
+
+            <!-- Query Overwrite Dialog -->
+            <dialog id="queryOverwriteDialog">
+                <p>
+                    "<span id="queryOverwriteFilename"></span>" already exists.<br />
+                    Do you want to replace it?
+                </p>
+                <div style="text-align:right">
+                    <button id="queryOverwriteYesButton" autofocus="true">Yes</button>
+                    <button id="queryOverwriteNoButton">No</button>
+                </div>
+            </dialog>
+        </div>
+
+        <!-- Assemble button and error message --> 
+        <div style="width: 40em; display:block; margin:auto">
+
+            <button type="button" id="assembleBtn" style="font-size: larger; display: block; margin-left: auto; margin-right: auto; margin-top: 10px" disabled>Assemble</button>
+
+            <div style="display:block">
+                <p id="errorMessage" style="color: red; text-align: center">
+                    &nbsp;
+                </p>
+            </div>
+        </div>
+
+        <div style="max-width: 60em; margin: auto; display: flex; justify-content: space-between">
+            <!-- Memory -->
+            <div style="display: inline-block;">
+                <h4>
+                    Memory
+                </h4>
+
+                <select id="codelist" size="16" style="font-family: monospace, monospace; width: 24em"></select>
+            </div>
+
+            <!-- CPU -->
+            <div style="display: inline-block;">
+                <h4>
+                    CPU
+                </h4>
+
+                <table>
+                    <tr><td colspan="2">PC = </td><td colspan="2" id="pc">0000h</td></tr>
+                    <tr><td colspan="2">SP = </td><td colspan="2" id="sp">0000h</td></tr>
+                    <tr><td colspan="4"></td></tr>
+                    <tr><td>A</td><td id="a">00h</td><td id="f">00h</td><td>Flags</td></tr>
+                    <tr><td>B</td><td id="b">00h</td><td id="c">00h</td><td>C</td></tr>
+                    <tr><td>D</td><td id="d">00h</td><td id="e">00h</td><td>E</td></tr>
+                    <tr><td>H</td><td id="h">00h</td><td id="l">00h</td><td>L</td></tr>
+                    <tr><td colspan="4"></td></tr>
+                    <tr><td>Flags</td><td colspan="3" id="flags"></td></tr>
+                </table>
+    
+                <div style="display: flex; justify-content: space-evenly; padding-top:10px">
+                    <button type="button" id="stepButton">Step</button>
+                    <button type="button" id="runButton">Run</button>
+                    <button type="button" id="breakButton">Break</button>
+                    <button type="button" id="resetButton">Reset</button>
+                </div>
+            </div>
+
+            <!-- Console -->
+            <div style="display: inline-block;">
+                <h4>Console</h4>
+                <textarea id="consoleTextBox" rows="16" cols="40" spellcheck="false"></textarea>
+                <button id="clearConsoleButton" style="display: block; margin: 10px auto 0; ">Clear</button>
+            </div>
+        </div>
+
+        <div class="narrative">
+            <p>
+                The following sections describe the various components of this emulator.
+            </p>
+
+            <h4>
+                Editor
+            </h4>
+
+            <p>
+                The <b>Editor</b> is a stripped down version of a multiline editor application 
+                such as the Windows Notepad or the macOS TextEdit. It is here that you can 
+                create assembly language programs that are compatible with the Intel 8080
+                Assembly Language. 
+                This language is case insensitive: You can type your programs in 
+                uppercase or lowercase or a mix.
+            </p>
+            <p>
+                The <b>File</b> menu has
+                options to clear the contents of the <b>Editor</b> to begin a new file,
+                open an existing file, and save a file. 
+                These menu options invoke familiar dialog boxes.
+            </p>
+            <p>
+                This simulated file system 
+                uses a feature available through JavaScript known as <b>localStorage</b>. 
+                The files that you store are private to this particular webpage and to the
+                particular browser you're using. 
+                In other words, if you save files while running this page on one browser, 
+                you won't be able to see them when using another browser. 
+                You can transfer these files between browsers, or save
+                these files elsewhere by copying them from the <b>Editor</b> to the clipboard.
+            </p>
+            <p>
+                In addition to opening and saving entire files, 
+                you can save a snippet of a file by selecting a block of text and choosing
+                <b>Save selection</b> from the menu. You can insert a snippet into your
+                existing file and choosing <b>Insert file</b> from the menu. 
+                This features are intended to save and retrieve handy subroutines. 
+            </p>
+            <p style="border: solid red; padding: 5px">
+                <b><span style="color:red">WARNING: </span></b> Although this editor uses typical 
+                message box warnings to help you avoid writing over an existing file,
+                or erasing a file before it's been saved, it does 
+                <b><span style="color:red">NOT</span></b> warn you about losing your
+                edits if you refresh or close the webpage.
+            </p>
+            <p>
+                Several files are pre-stored for you. These include all the assembly
+                language programs in the book, as well as a couple others. These files
+                are described in the <b>File Open</b> dialog box. They are read-only
+                files. You can modify them in the <b>Editor</b> but you cannot save
+                them unless you choose the <b>Save As</b> option to specify a different filename.
+            </p>
+            <p>
+                The allowable syntax for your programs is generally that described by 
+                the <i>Intel 8080 Assembly Language Programming Manual</i>
+                published in 1975 and available on the 
+                <a href="https://archive.org/details/intel-8080-assembly-language-programming-manual-1975">Internet Archive</a>
+                with some stipulations and exceptions:
+            </p>
+            <ul>
+                <li>
+                    The IN, OUT, EI, and DI instructions are not supported because this 
+                    emulation has no input or output ports, and no interrupts to enable or disable.
+                </li>
+                <li>
+                    Instructions that reference register pairs can use either B, D, and H as the Manual indicates,
+                    or BC, DE, and HL for purposes of clarity. 
+                </li>
+                <li>
+                    The use of $ to represent the current Program Counter (page 10) is not supported. 
+                    The use of numbers to represent registers (page 10) is not supported.
+                </li>
+                <li>
+                    The ORG, END, EQU, DB, DW, and DS directives are supported but not SET.
+                    Conditional assembly and macros are not supported.
+                </li>
+            </ul>
+            <p>
+                Notice that hexadecimal numbers that begin with a letter must be preceded with a zero.
+                Otherwise, the assembler could mistake them for labels. 
+            </p>
+            <p>
+                Amoung the available programs is one called <b>Test Suite</b>, which is copyright 1980
+                and intended to test emulated 8080 processors. This program assembles on runs on
+                the emulator here and was particularly useful for testing it. 
+            </p>
+            <p>
+                If the program contains an ORG statement that causes the assembled program to 
+                begin execution at the address 100h, then five CP/M calls are supported
+                through the <code>CALL 5</code> interface:
+            </p>
+            <ul>
+                <li>
+                    <b>End Execution:</b> Set register C to 0 and <code>CALL 5</code>. 
+                </li>
+
+                <li>
+                    <b>Console Input:</b> Set register C to 1 and <code>CALL 5</code>. 
+                    On return, both the A and L registers contain a character typed in the <b>Console</b> window.
+                </li>
+                <li>
+                    <b>Console Output:</b> Set register C to 2 and register E to an ASCII character. 
+                    The character will appear in the <b>Console</b> window.
+                </li>
+                <li>
+                    <b>Output String:</b> Set register C to 9 and the DE register pair to the address 
+                    of a string of characters terminated by the dollar sign($).
+                    The characters up to (but not including) the dollar sign are display in the <b>Console</b> window.
+                </li>
+                <li>
+                    <b>Buffered Console Input:</b> Set register C to 10 (hexadecimal 0Ah) and the register pair DE to an area of memory,
+                    the first byte of which is the length of the buffer. 
+                    On return, the buffer will contain characters typed at the keyboard up to that length, 
+                    and the first byte will be the actual length.
+                </li>
+            </ul>
+            <p>
+                The <b>Test CP/M Console Calls</b> program included among the files demonstrates all 
+                these function calls.
+            </p>
+            <p>
+                A CP/M program can terminate in several ways: By a <code>CALL 5</code> with register C set to zero;
+                by JMP or CALL to address 0000h; or by a RST 0. When a CP/M program begins execution, the 
+                address 0000h has been pushed on the stack, so it can also terminate with a RET instruction.
+            </p>
+            <h4>
+                Memory
+            </h4>
+            <p>
+                After you've opened or typed in a progam you can press the <b>Assemble</b>
+                button. Any errors in your code are displayed in red under that button.
+            </p>
+            <p>
+                If the file is successfull assembled, the addresses and machine code
+                are displayed in the <b>Memory</b> box. For convenience, the 
+                corresponding instructions are displayed at the right.
+            </p>
+            <p>
+                This display is helpful when executing the code: 
+                Lines of code in the <b>Memory</b> display are highlighted as they
+                are being executed.
+            </p>
+
+            <h4>
+                CPU
+            </h4>
+
+            <p>
+                This table displays the state of the CPU, which consists of the Program Counter (PC),
+                the Stack Pointer (SP), the registers A, B, C, D, E, H, L, and the flags.
+            </p>
+            <p>
+                Four buttons are available: 
+            </p>
+            <ul>
+                <li>
+                    <b>Step:</b> Executes the next statement in the program.
+                </li>
+                <li>
+                    <b>Run:</b> Executes the program continuously at the rate of 100 instructions a second * 
+                    until the program halts itself.
+                </li>
+                <li>
+                    <b>Break:</b> Only enabled when the program is running continuously. Stops execution. 
+                </li>
+                <li>
+                    <b>Reset:</b> Resets the Program Counter and Stack Pointer to their initial states.
+                    If you want to restore the contents of memory as well, press the <b>Assemble</b> button.
+                </li>
+            </ul>
+            <p>
+                * The original Intel 8080 ran at 2 Mhz. The various instructions (including fetching 
+                the instruction from memory) required a minimum of 4 clock cycles and as many as 11.
+                The instuctions executed at a rate of approximately 200,000 to 500,000 a second. 
+            </p>    
+
+            <h4>
+                Console
+            </h4>
+
+            <p>
+                The <b>Console</b> displays output from your programs and allows you to type input to your programs.
+                It should receive input focus when a CP/M call has been made to receive keyboard input, but if not,
+                simply click it and then type. It can be cleared with the <b>Clear</b> button.
+            </p>
+
+        </div>
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+        <script src="TestSuite.asm.js"></script>
+        <script src="TestSuiteLowerCase.asm.js"></script>
+        <script src="LocalStorageLib.240618.js"></script>
+        <script src="I8080Emulator.240618.js"></script>
+        <script src="I8080Assembler.240618.js"></script>
+        <script src="EmulatorEditor.240618.js"></script>
+        <script src="EmulatorEditorMenu.240618.js"></script>
+        <script src="EmulatorMemory.240618.js"></script>
+        <script src="EmulatorCPU.240618.js"></script>
+        <script src="EmulatorConsole.240618.js"></script>
+        <script src="EmulatorConnections.240618.js"></script>
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter27a/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:43 GMT -->
+</html>

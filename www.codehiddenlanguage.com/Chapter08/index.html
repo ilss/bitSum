@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter08/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:05:38 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: Chapter 8</title>
+        <link rel="stylesheet" href="../style.240618.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>Chapter 8. Relays and Gates</h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                A better approach to implementing logical operations in circuits is the use of logic gates, 
+                which can be built with simple relays.
+                This chapter demonstrates how these logic gates perform logical operations.
+            </p>
+
+            <p>
+                Toggle the state of the switches with mouse clicks or finger taps.
+            </p>
+        </div>
+
+        <h3>AND Logic Relays (page 72)</h3>
+
+        <div class="canvas-container">
+            <canvas id="canvasAnd" width="720" height="440">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>OR Logic Relays (page 76)</h3>
+
+        <div class="canvas-container">
+            <canvas id="canvasOr" width="780" height="460">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Kitten Selector (page 81)</h3>
+
+        <div class="narrative">
+            <p>
+                The kitten selector can be built from logic gates rather than switches. 
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasKittens" width="1200" height="450">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                Here are two more logic gates that are the inverses of those shown earlier.
+            </p>
+        </div>
+
+        <h3>NOR Logic Relays (page 82)</h3>
+
+        <div class="canvas-container">
+            <canvas id="canvasNor" width="720" height="440">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>NAND Logic Relays (page 84)</h3>
+
+        <div class="canvas-container">
+            <canvas id="canvasNand" width="780" height="460">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Four Basic Two-Input Gates (page 87)</h3>
+
+        <div class="narrative">
+            <p>
+                In this summary of the four basic logic gates, 
+                the switches are now shown as simple boxes at the upper-left.
+                They display 0 if the switch is off and 1 if it's on. 
+                You can toggle these switches with either mouse clicks or finger taps.
+                Instead of a lightbulb, the output is shown with a circle labeled 0 or 1. 
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasAllFour" width="740" height="675">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Augustus De Morgan’s Laws (pages 89 and 90)</h3>
+
+        <div class="narrative">
+            <p>
+                English mathematician Augustus de Morgan established in the 19th century that 
+                the various logical operations are intimately related, 
+                as this illustration demonstrates. 
+            </p>
+            <ul>
+                <li>An AND gate with its two inputs inverted is the same as a NOR gate</li>
+                <li>An OR gate with its two inputs inverted is the same as a NAND gate</li>
+            </ul>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasDeMorgan" width="700" height="675">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+        <script src="../PropagatingLogicLib.240618.js"></script>
+        <script src="../PropagatingRelayLib.240618.js"></script>
+        <script src="../PropagatingIoLib.240618.js"></script>
+        <script src="../PropagatingGatesLib.240618.js"></script>
+        <script src="../StructuredLayoutLib.240618.js"></script>
+        <script src="Chapter08LogicRelaysCommon.json.js"></script>
+        <script src="Chapter08AndLogicRelays.json.js"></script>
+        <script src="Chapter08OrLogicRelays.json.js"></script>
+        <script src="Chapter08KittenSelector.json.js"></script>
+        <script src="Chapter08NorLogicRelays.json.js"></script>
+        <script src="Chapter08NandLogicRelays.json.js"></script>
+        <script src="Chapter08FourBasicGates.json.js"></script>
+        <script src="Chapter08DeMorgansLaws.json.js"></script>
+        <script>
+            new CircuitBuilder(canvasAnd, Chapter08AndLogicRelays);
+            new CircuitBuilder(canvasOr, Chapter08OrLogicRelays);
+            new CircuitBuilder(canvasKittens, Chapter08KittenSelector);
+            new CircuitBuilder(canvasNor, Chapter08NorLogicRelays);
+            new CircuitBuilder(canvasNand, Chapter08NandLogicRelays);
+            new CircuitBuilder(canvasAllFour, Chapter08FourBasicGates);
+            new CircuitBuilder(canvasDeMorgan, Chapter08DeMorgansLaws);
+        </script>
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter08/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:05:48 GMT -->
+</html>

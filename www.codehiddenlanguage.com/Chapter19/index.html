@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter19/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:00 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: An Assemblage of Memory</title>
+        <link rel="stylesheet" href="../style.240618.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>Chapter 19. An Assemblage of Memory</h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                Some of the circuits on this page are large. 
+                You might need to zoom out your browser screen to see the entire memory arrays.
+            </p>
+        </div>
+
+        <h3>One Bit Memory (page 268)</h3>
+
+        <div class="narrative">
+            <p>
+                A level-triggered D-type flip-flop can store a single bit.
+                Click or tap the <b>Write</b> button to write the <b>Data In</b> value into memory.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasOneBitRam" width="880" height="420">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Eight Bit Memory (page 269)</h3>
+
+        <div class="narrative">
+            <p>
+                Storing an entire byte at once requires eight memory cells with all the <b>Write</b> signals connected.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasEightBitRam" width="1750" height="400">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>8 × 1 RAM (page 273)</h3>
+
+        <div class="narrative">
+            <p>
+               Somewhat different is a circuit that stores eight separate one-bit values.
+               Now a three-bit address (at the upper-left) is required to select the memory cell where the bit is stored. 
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas8by1Ram" width="2000" height="1025">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>16 × 8 Random-Access Memory (page 279)</h3>
+
+        <div class="narrative">
+            <p>
+               This memory array stores sixteen bytes. 
+               Select a four-bit memory address at the left, and a byte to be stored into memory. 
+               Click the <b>Write</b> button to store it.
+               You can read that byte (or overwrite it) by simply selecting the same four-bit address.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas16by8Ram" width="2300" height="2275">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <script src="../PropagatingLogicLib.240618.js"></script>
+        <script src="../PropagatingGatesLib.240618.js"></script>
+        <script src="../PropagatingIoLib.240618.js"></script>
+        <script src="../PropagatingSemiconductorsLib.240618.js"></script>
+        <script src="../StructuredLayoutLib.240618.js"></script>
+        <script src="Chapter19OneBitMemory.json.js"></script>
+        <script src="Chapter19MemoryBit.json.js"></script>
+        <script src="Chapter19MemoryBitIo.json.js"></script>
+        <script src="Chapter19EightBitMemory.json.js"></script>
+        <script src="Chapter19EightAnds.json.js"></script>
+        <script src="Chapter19ThreeToEightDecoder.json.html"></script>
+        <script src="Chapter19EightToOneSelector.json.html"></script>
+        <script src="Chapter19EightByOneRam.json.js"></script>
+        <script src="Chapter19MemoryCell.json.js"></script>
+        <script src="Chapter19OneByteMemory.json.js"></script>
+        <script src="Chapter19SixteenByEightArray.json.js"></script>
+        <script src="Chapter19FourToSixteenDecoder.json.js"></script>
+        <script src="Chapter19SixteenByEightRam.json.js"></script>
+        <script>
+            new CircuitBuilder(canvasOneBitRam, Chapter19OneBitMemory);
+            new CircuitBuilder(canvasEightBitRam, Chapter19EightBitMemory);
+            new CircuitBuilder(canvas8by1Ram, Chapter19EightByOneRam);
+            new CircuitBuilder(canvas16by8Ram, Chapter19SixteenByEightRam);
+        </script>
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter19/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:13 GMT -->
+</html>

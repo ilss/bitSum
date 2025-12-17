@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter23/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:27 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: CPU Control Signals</title>
+        <link rel="stylesheet" href="../style.240618.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>Chapter 23. CPU Control Signals</h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                Chapter 23 constructs a CPU that executes a subset of the instructions of the classic Intel 8080 microprocessor.
+                This CPU requires the Arithmetic Logic Unit and the Register Array from the previous two chapters,
+                along with several smaller components. 
+                Tying everything together is the Instruction Decoder that generates all the control signals for the other parts.
+            </p>
+        </div>
+
+        <h3>
+            Instruction Decoder (pages 365 – 376)
+        </h3>
+
+        <div class="narrative">
+            <p>
+                The Instruction Decoder is easily the messiest part of the CPU. 
+                It is shown in several parts in the pages of Chapter 23,
+                but here all the components are assembled into an extremely scary circuit.
+            </p>
+            <p>
+                Unless you have a giant screen, you might need to zoom out your browser window to see the whole monster circuit.
+            </p>
+            <p>
+                An opcode is selected using the spin control at the upper left.
+                The instruction mnemonic appears above the spin control.
+                As you'll note, many of the Intel 8080 instructions are not implemented in this circuit.
+            </p>
+            <p>
+                The decoders below the spin control are used in conjunction with a series of AND gates to 
+                determine which family of instructions the opcode belongs to.
+            </p>
+            <p>
+                By default, instructions are assumed to have a one-byte fetch and a one-cycle execution.
+                If that is not the case, then the gates at the lower left determine how many bytes must be fetched from memory
+                and how many cycles are required for the execution.                 
+                The flip-flops, counter, and decoder generate signals corresponding to the fetch cycles,
+                the Program Counter (PC) increment cycles, and the execute cycles. 
+                Some of the circuitry below the 4-to-16 Decoder is a little different from that shown on page 370 of the book.
+            </p>
+            <p>
+                At the far right on the bottom you'll see signals that are used to control several of the components in the CPU.
+                These control signals are the same for all instructions. 
+                Control signals that are specfic to each instruction are handled by the big diode matrix that dominates the top right part of
+                the circuit. 
+                Each family of instructions generates certain control signals for the first and second execution cycles, 
+                and the corresponding Pulse cycles. 
+            </p>
+        </div>
+
+        <div class="canvas-container" style="position: relative">
+            <canvas id="canvasInstructionDecoder"  width="2300" height="1900">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                You control the fetch and execution of each instruction by pressing the <b>Clock</b> button.
+            </p>
+            <p>
+                For example, dial up the instruction C6h, which is the ADI instruction, or Add Immediate. 
+                Press and release the <b>Reset</b> button to return everything to initial conditions.
+            </p>
+            <p>
+                You'll see that the circuitry at the bottom left has determined that this instruction requires 
+                a <b>2-Byte Fetch</b> (the instruction byte itself and the data byte that follows the instruction) 
+                and a <b>2-Byte Execute</b>. 
+                However, this information is not used quite yet. 
+                In an actual CPU, it wouldn't be available until the instruction has been fetched from memory and stored in 
+                the instruction latch.
+            </p>
+            <p>
+                The <b>4-to-16 Decoder</b> in the <b>Cycle Decoding</b> section has inputs of all 0's which means 
+                that the 0 output signal is 1, indicating <b>Fetch Cycle 1</b>. 
+                At the far right, you'll see that the <b>Program Counter Enable</b> signal has put the contents of 
+                the Program Counter on the address bus to address the Random-Access Memory, 
+                and the <b>RAM Data Out Enable</b> signal has allowed the contents of the memory to be put on the data bus. 
+                This is the instruction byte. 
+            </p>
+            <p>
+                Now press the <b>Clock</b> button but don't release it. 
+                The <b>Pulse</b> signal causes the <b>Instruction Latch 1 Clock</b> to store the instruction and 
+                the <b>Increment-Decrement Clock</b> signal to store the contents of the address bus in 
+                the Incrementer-Decrementer. Now release the <b>Clock</b> button.
+            </p>
+            <p>
+                Press and release the <b>Clock</b> button again. 
+                Now we're in a <b>PC Increment Cycle</b> and the <b>Increment Enable</b> signal has allowed 
+                the incremented value of the Program Counter to be put on the address bus.
+            </p>
+            <p>
+                Now press the <b>Clock</b> button but don't release it. 
+                The <b>Pulse</b> signal triggers the <b>Program Counter Clock</b> to store the incremented address 
+                in the Program Counter. Now release the <b>Clock</b> button.
+            </p>
+            <p>
+                Press and release the <b>Clock</b> button. Now we're in <b>Fetch Cycle 2</b>, 
+                and the <b>Program Counter Enable</b> and <b>RAM Data Out Enable</b> signals have put 
+                the next byte (the data byte of this instruction) on the data bus.
+            </p>
+            <p>
+                Pressing the <b>Clock</b> button causes the <b>Pulse</b> signal to trigger <b>Instruction Latch 2</b> 
+                to store that byte, and the <b>Increment-Decrement Clock</b> to store the value of the Program Counter 
+                in the Incrementer-Decrementer.
+            </p>
+            <p>
+                Pressing and releasing the <b>Clock</b> button puts us in another <b>PC Increment Cycle</b> as earlier. 
+                Pressing the button again stores the incremented value back in the Program Counter.
+            </p>
+            <p>
+                Press and release the <b>Clock</b> button again. Now we're in <b>Execute Cycle 1</b> ready to execute 
+                this instruction. 
+                You'll notice at the top that the diode matrix and the <b>Execute Cycle 1</b> signal have caused 
+                the <b>Inst Latch 2 Enable</b> signal to put the value of the data byte on the data bus. 
+            </p>
+            <p>
+                Press the <b>Clock</b> button without releasing it. The <b>Pulse</b> signal 
+                has triggered the <b>ALU Clock</b> to store that value in the Arithmetic Logic Unit. 
+                Release the <b>Clock</b> button.
+            </p>
+            <p>
+                Press and release the <b>Clock</b> button again. 
+                Now we're in <b>Execute Cycle 2</b> and the <b>ALU Enable</b> signal has allowed the contents of 
+                the Arithmetic Logic Unit to be put on the data bus. This value is the Accumulator plus the data byte.
+            </p>
+            <p>
+                Press the <b>Clock</b> button without releasing it. The <b>Pulse</b> signal 
+                triggers the <b>Acc. Clock</b> to store that value in the Accumulator. 
+                Release the <b>Clock</b> button. The instruction has been executed. 
+            </p>
+            <p>
+                If you keep pressing and releasing the <b>Clock</b> button, 
+                the instruction will be executed again, but in a real CPU, 
+                a different instruction will be fetched from memory.
+            </p>
+        </div>
+
+        <h3>
+            The Central Processing Unit (pages 356 – 376)
+        </h3>
+
+        <div class="narrative">
+            <p>
+                All the components of the CPU have been assembled here and connected to a block of Random-Access Memory.
+                Components are connected with the 8-bit data bus (the thinner data path),
+                the 16-bit address bus (the thicker data path), and control signals (lines).
+                The Instruction Decoder shown above is now encapsulated in a large box in the center.
+            </p>    
+            <p>
+                This circuit demonstrates how an entire program is executed by the CPU.
+                The bytes stored in memory constitute the program shown on page 318 of the book.
+                This program adds a pair of two-byte numbers, the hexadecimal equivalents of 5,000 and 2,500. 
+            </p>                
+        </div>
+
+        <div class="canvas-container" style="position: relative">
+            <canvas id="canvasCentralProcessingUnit" width="2050" height="1300">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                As you click the <b>Clock</b> button, the <b>Instruction Decoder</b> below it indicates the cycle and the fetched opcode.
+                Control signals trigger the <b>Instruction Latches</b>, <b>Program Counter</b>, and <b>Incrementer-Decrementer</b> 
+                to the left of the <b>Instruction Decoder</b>, and the <b>Register Array</b> and <b>Arithmetic Logic Unit</b> 
+                to the right of the <b>Instruction Decoder</b>. 
+            </p>
+            <p>
+                Keep in mind that the <b>S<sub>0</sub></b>, <b>S<sub>1</sub></b>, <b>S<sub>2</sub></b>,
+                <b>D<sub>0</sub></b>, <b>D<sub>1</sub></b>, and <b>D<sub>2</sub></b> signals from the <b>Instruction Decoder</b>
+                to the <b>Register Array</b> might be affected by instructions that do not involve the <b>Register Array</b>.
+                The <b>Source</b> signals are only meaningful when the <b>RA Clock</b> signal saves a value in the <b>Register Array</b>;
+                the <b>Destination</b> signals are only meaningful when the <b>RA Enable</b> signal puts a value on the data bus.
+            </p>
+            <p>
+                Similarly, the <b>R<sub>0</sub></b>, <b>R<sub>1</sub></b>, and <b>R<sub>2</sub></b> signals from the <b>Instruction Decoder</b>
+                to the <b>Arithmetic Logic Unit</b> are only meaningful when the <b>ALU Clock</b> signal saves a value in the ALU.
+            </p>
+            <p>
+                As you repeatedly click the <b>Clock</b> button, the <b>Memory</b> component at the far left displays what byte is being addressed.
+                The two busses show what value is on that bus. 
+                When the program executes the HLT instruction at memory location 000Eh, the program has completed.
+                The sum of the two values being added is stored in the memory locations 0x0010 and 0x0011. 
+                That value is 1D4Ch or 7,500 in decimal.
+            </p>
+        </div>
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+        <script src="../PropagatingLogicLib.240618.js"></script>
+        <script src="../PropagatingGatesLib.240618.js"></script>
+        <script src="../PropagatingIoLib.240618.js"></script>
+        <script src="../PropagatingBoxesLib.240618.js"></script>
+        <script src="../PropagatingDataPathLib.240618.js"></script>
+        <script src="../PropagatingAdvIoLib.240619.js"></script>
+        <script src="../PropagatingAdvBoxesLib.240618.js"></script>
+        <script src="../PropagatingSemiconductorsLib.240618.js"></script>
+        <script src="../StructuredLayoutLib.240618.js"></script>
+        <script src="../PropagatingCpuBoxesLib.240618.js"></script>
+        <script src="../PropagatingMemoryLib.240618.js"></script>
+        <script src="Chapter23InstructionDecoder.json.js"></script>
+        <script src="Chapter23CPUCommon.json.js"></script>
+        <script src="Chapter23CentralProcessingUnit.json.js"></script>
+        <script>
+            new CircuitBuilder(canvasInstructionDecoder, Chapter23InstructionDecoder);
+            new CircuitBuilder(canvasCentralProcessingUnit, Chapter23CentralProcessingUnit);
+        </script>
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter23/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:31 GMT -->
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter18/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:06:33 GMT -->
+<head>
+        <meta charset="utf-8">
+        <title>Code: Chapter Clock</title>
+        <link rel="stylesheet" href="../style.240618.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>
+                <a href="../index.html"><i>CODE</i></a><br /><i>The Hidden Language of Computer Hardware and Software</i><br />2nd Edition
+            </h1>
+            <h2>Chapter 18. Let’s Build a Clock!</h2>
+        </header>
+
+        <div class="narrative">
+            <p>
+                Some of the circuits in this chapter are large, and 
+                you might need to zoom out your browser screen to see the entire circuit on the screen.
+            </p>
+        </div>
+
+        <h3>Binary Clock (page 249)</h3>
+
+        <div class="narrative">
+            <p>
+                This is a binary clock. It displays seconds (at the top), minutes, and then hours 
+                in binary-coded decimal (BCD), with an AM/PM indicator at the bottom left 
+                Each group of three or four flip-flops is one decimal digit. 
+                For example, 010 0101 is 25.
+            </p>
+
+            <p>
+                This clock does not display the correct time. 
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasBinary" width="1210" height="1275">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Settable Binary Clock (page 251)</h3>
+        
+        <div class="narrative">
+            <p>
+                This binary clock is the same as the first one except that it includes two buttons at the left 
+                that let you set the clock to a particular time.
+                Press the top square button at the left to set minutes, and the bottom square button to set hours.
+            </p>
+            <p>
+                Timing is based on the Javascript animation facility, so it may not keep exact time.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasSettable" width="1280" height="1425">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Nixie Display (page 253)</h3>
+
+        <div class="narrative">
+            <p>
+                This circuit shows how a closed-cathode display (commonly called a Nixie tube) 
+                can display digits 0 through 9. 
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasNixie" width="725" height="1000">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Seven-Segment Display (page 256)</h3>
+
+        <div class="narrative">
+            <p>
+                A seven-segment display is a little more complex because decoding circuity
+                is required to illuminate the various segments.
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasSevenSeg" width="725" height="1125">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <h3>Dot Matrix Display (page 266)</h3>
+
+        <div class="narrative">
+            <p>
+                A dot-matrix display is even more complex because only one column of dots
+                (or in other configurations, only one row of dots) can be illuminated at any time. 
+                This requires circuitry that quickly cycles through all five columns to trick the eye into believing that it's all lit up at once.
+                (The effect is exaggerated here.)
+            </p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvasDotMatrix" width="1350" height="1190">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <div class="narrative">
+            <p>
+                Also required is a type of read-only memory that contains the dot patterns of the digits.
+                In this circuit that's provided by arrays of diodes.
+            </p>
+        </div>
+
+        <hr />
+
+        <footer>
+            &copy; 2024, <a href="https://www.charlespetzold.com/">Charles Petzold</a>
+        </footer>
+
+        <script src="../PropagatingLogicLib.240618.js"></script>
+        <script src="../PropagatingGatesLib.240618.js"></script>
+        <script src="../PropagatingIoLib.240618.js"></script>
+        <script src="../PropagatingBoxesLib.240618.js"></script>
+        <script src="../PropagatingAdvIoLib.240619.js"></script>
+        <script src="../PropagatingSemiconductorsLib.240618.js"></script>
+        <script src="../StructuredLayoutLib.240618.js"></script>
+        <script src="Chapter18FlipFlop.json.js"></script>
+        <script src="Chapter18LowNoReset.json.js"></script>
+        <script src="Chapter18LowReset.json.js"></script>
+        <script src="Chapter18LowDigit.json.js"></script>
+        <script src="Chapter18HighDigit.json.js"></script>
+        <script src="Chapter18TwoDigits.json.js"></script>
+        <script src="Chapter18HoursCore.json.js"></script>
+        <script src="Chapter18Hours.json.js"></script>
+        <script src="Chapter18HoursLights.json.js"></script>
+        <script src="Chapter18AmPm.json.js"></script>
+        <script src="Chapter18Oscillator.json.js"></script>
+        <script src="Chapter18BinaryClock.json.js"></script>
+        <script src="Chapter18SettableBinaryClock.json.js"></script>
+        <script src="Chapter18BcdDecoder.json.js"></script>
+        <script src="Chapter18NixieDecoder.json.js"></script>
+        <script src="Chapter18NixieDisplay.json.js"></script>
+        <script src="Chapter18SevenSegmentDecoder.json.js"></script>
+        <script src="Chapter18SevenSegmentDisplay.json.js"></script>
+        <script src="Chapter18BcdGenerator.json.js"></script>
+        <script src="Chapter18DotMatrixEnable.json.js"></script>
+        <script src="Chapter18FlipFlop2.json.js"></script>
+        <script src="Chapter18FastOscillator.json.js"></script>
+        <script src="Chapter18DotMatrixColumnDecoder.json.js"></script>
+        <script src="Chapter18DotMatrixColumnSelect.json.js"></script>
+        <script src="Chapter18DotMatrixDisplay.json.js"></script>
+        <script>
+            new CircuitBuilder(canvasBinary, Chapter18BinaryClock);
+            new CircuitBuilder(canvasSettable, Chapter18SettableBinaryClock);
+            new CircuitBuilder(canvasNixie, Chapter18NixieDisplay);
+            new CircuitBuilder(canvasSevenSeg, Chapter18SevenSegmentDisplay);
+            new CircuitBuilder(canvasDotMatrix, Chapter18DotMatrixDisplay);
+        </script>
+    </body>
+
+<!-- Mirrored from www.codehiddenlanguage.com/Chapter18/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 15 Dec 2025 07:07:00 GMT -->
+</html>
