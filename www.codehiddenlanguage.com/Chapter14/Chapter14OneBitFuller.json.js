@@ -174,6 +174,15 @@ let Chapter14OneBitFuller = {
         { name: 'carryOr', io: 'B', input: 1 }, // OR 门 B 输入
       ],
     },
+
+    // 缺失的 B 输入到 halfer1 OR 门的连接
+    {
+      points: [
+        { name: 'halfer1.nodeB2' },
+        { name: 'halfer1.jt0' },
+        { name: 'halfer1.summer.or', io: 'B', input: 1 },
+      ],
+    },
   ],
 
   // ========== 对外接口 ==========

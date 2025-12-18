@@ -1,0 +1,76 @@
+<!--
+ * @Author: ilss 375259904@qq.com
+ * @Date: 2025-12-18 10:31:25
+ * @LastEditors: ilss 375259904@qq.com
+ * @LastEditTime: 2025-12-18 10:35:31
+ * @FilePath: /web1/www.codehiddenlanguage.com/Editor2/index.html
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuit Editor 2</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
+    <link rel="stylesheet" href="../style.240618.css">
+    <link rel="stylesheet" href="editor.css">
+</head>
+
+<body>
+    <div class="editor-container">
+        <div class="sidebar">
+            <h2>Components</h2>
+            <div class="component-palette">
+                <!-- Basic components removed as requested -->
+                <div class="palette-item" draggable="true" data-type="BitLight">BitLight</div>
+                <div class="palette-item" draggable="true" data-type="Chapter14OneBitFuller">Fuller (1-Bit)</div>
+                <div class="palette-item" draggable="true" data-type="CarryLight">CarryLight</div>
+            </div>
+            <div class="controls">
+                <button id="exportBtn">Export JSON</button>
+                <button id="clearBtn">Clear Canvas</button>
+            </div>
+            <div class="instructions">
+                <h3>使用说明</h3>
+                <ul>
+                    <li>拖拽组件到画布</li>
+                    <li>点击组件端口 开始连线</li>
+                    <li>点击另一个端口 完成连线</li>
+                    <li>右键双击组件可删除</li>
+                    <li>右键点击可取消连线</li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-area">
+            <canvas id="circuitCanvas" width="800" height="600"></canvas>
+            <canvas id="canvasPreview" width="800" height="600" style="display: none;">
+                Your browser does not support the canvas element.
+            </canvas>
+        </div>
+    </div>
+
+    <!-- Libraries -->
+    <script src="../StructuredLayoutLib.240618.js"></script>
+    <script src="../PropagatingLogicLib.240618.js"></script>
+    <script src="../PropagatingIoLib.240618.js"></script>
+    <script src="../PropagatingBoxesLib.240618.js"></script>
+    <script src="../PropagatingSemiconductorsLib.240618.js"></script>
+    <script src="../PropagatingGatesLib.240618.js"></script>
+
+    <!-- Circuit Data -->
+    <script src="../Chapter06/Chapter06SwitchesInSeries.json.js"></script>
+    <script src="../Chapter14/Chapter14OneBitSummer.json.js"></script>
+    <script src="../Chapter14/Chapter14OneBitSum.json.js"></script>
+    <script src="../Chapter14/Chapter14OneBitHalfer.json.js"></script>
+    <script src="../Chapter14/Chapter14OneBitHalfAdder.json.js"></script>
+    <script src="../Chapter14/Chapter14OneBitFuller.json.js"></script>
+    <script src="../Chapter14/Chapter14OneBitFullAdder.json.js"></script>
+
+    <!-- Editor Logic -->
+    <script src="editor.js"></script>
+
+</body>
+
+</html>

@@ -86,6 +86,7 @@ let Chapter14EightBitComponent = {
 
     // light: 显示该位的 Sum 结果
     // 位置在全加器 Sum 输出下方 100 像素
+
     {
       name: 'light',
       type: 'BitLight',
